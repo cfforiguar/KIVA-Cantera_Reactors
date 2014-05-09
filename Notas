@@ -1,0 +1,10 @@
+Estas notas son acerca del modelo del reactor escogiro para cantera
+
+-¿hay alguna diferencia entre:?
+	-Reactor de flujo másico con entrada y salida
+	-Reactor encerrado el cual se define un tiempo de residencia
+		-Véase función en c++ por ahí
+
+-¿Cómo se hace para cambiar la forma en que se calculan las ratas de reacción?
+
+-¿Cómo se hace para cambiar el Cv por Cp a la hora de calcular el reactor?
