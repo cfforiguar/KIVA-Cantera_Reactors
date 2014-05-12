@@ -14,7 +14,7 @@ OBJS=$(subst .cpp,.o,$(SRCS))
 all: WSR_KIVA
 
 combustor: $(OBJS)
-	$(CXX) $(LDFLAGS) -o combustor $(OBJS) $(LDLIBS)
+	$(CXX) $(LDFLAGS) -o WSR_KIVA $(OBJS) $(LDLIBS)
 
 clean:
 	$(RM) $(OBJS)

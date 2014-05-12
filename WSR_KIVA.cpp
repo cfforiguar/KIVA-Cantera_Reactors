@@ -14,17 +14,35 @@
 
 using namespace Cantera;
 
-void runexample()
+void runexample(int temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot)
 {
+
+//Entradas desde KIVA
     //KIVA temperatura
-    int temperatura=2900.0;
+    //int temperatura=2900.0;
+//FIXME
+//Hacer que pueda usar cualquier nombre de mecanismo con una longitud arbitraria
     // use reaction mechanism GRI-Mech 3.0
-    IdealGasMix gas("gri30.cti", "gri30");
+//    char mechanism[]="gri30.cti\0"
+//end FIXME
+    IdealGasMix gas("gri30.cti");
+    //IdealGasMix gas("gri30.cti", "gri30");//Da lo mismo que la línea anterior
+//FIXME
+    //Averiguar el tipo gas para pasarlo a la función
     int nsp = gas.nSpecies();
-    
-    // create a reservoir for the fuel inlet, and set to pure methane.
+//end FIXME
+    //double composition(nsp)//
+    //create a reservoir for the fuel inlet, and set to pure methane.
+    //double CellVolume=1;
+    //double CellPressure=OneAtm;
+    //double tfinal = 1.0e-6;//KIVA time step is reactor's final time
+    //double fuel_mdot = 20.0; //fuel_mdot=CellDensity*CellVolume/tfinal
+//FIXME
+    //Pasar un array con la composición en número no una cadena
+//end FIXME
+
     Reservoir fuel_in;
-    gas.setState_TPX(temperatura, OneAtm, "CH4:1.0, N2:0.78, O2:0.21, AR:0.0");
+    gas.setState_TPX(temperatura,CellPressure, "CH4:1.0, N2:0.78, O2:0.21, AR:0.0");
     fuel_in.insert(gas);
     double fuel_mw = gas.meanMolecularWeight();
 
@@ -32,19 +50,16 @@ void runexample()
     // create the combustor, and fill it in initially with N2
 
     //gas.setState_TPX(300.0, OneAtm, "N2:1.0");//Interesante resultado, el reactor tarda en sacar el nitrógeno OJO KIVA
-    gas.setState_TPX(temperatura, OneAtm, "CH4:1.0, N2:0.78, O2:0.21, AR:0.0");
+    gas.setState_TPX(temperatura, CellPressure, "CH4:1.0, N2:0.78, O2:0.21, AR:0.0");
     Reactor combustor;
     combustor.insert(gas);
-    //combustor.setInitialVolume(1.0);//KIVA
+    combustor.setInitialVolume(CellVolume);
 
 
     // create a reservoir for the exhaust. The initial composition
     // doesn't matter.
     Reservoir exhaust;
     exhaust.insert(gas);
-
-
-    double fuel_mdot = 20.0;
 
     // create and install the mass flow controllers. Controllers
     // m1 and m2 provide constant mass flow rates, and m3 provides
@@ -65,15 +80,12 @@ void runexample()
 
     // take single steps to 6 s, writing the results to a CSV file
     // for later plotting.
-    double tfinal = 1.0e-6;
     double tnow = 0.0;
     double tres;
     int k;
 
     std::ofstream f("combustor_cxx.csv");
-    while (tnow < tfinal) {
-        //tnow = sim.step(tfinal);//Avanza paso a paso con sundials
-	
+
 	sim.advance(tfinal);//Avanza internamente y bota respuesta
 	tnow = tfinal; //Como ya avanzó, el tiempo final es el mismo tnow
         tres = combustor.mass()/v.massFlowRate();
@@ -85,16 +97,29 @@ void runexample()
             f << c.moleFraction(k) << ", ";
         }
         f << std::endl;
-    }
     f.close();
 
+//Salidas:
+    //Las salidas se pasan a las unidades de KIVA en la interfase.
+    //Densidades: Y->densidades(SI)
+
+    //c.massFraction()*rho
+
+    //Delta Energía: (SI)//¿Entalpía ó energía interna?->depende del reactor
+
+    //H_Inic(gas)-H_Fin(gas)
 }
 
 int main()
 {
 
     try {
-        runexample();
+        int temperatura=2900.0;
+        double CellVolume=1;
+        double CellPressure=OneAtm;
+        double tfinal = 1.0e-6;//KIVA time step is reactor's final time
+        double fuel_mdot = 20.0; //fuel_mdot=CellDensity*CellVolume/tfinal
+        runexample(temperatura, CellVolume, CellPressure, tfinal,fuel_mdot);
         return 0;
     }
     // handle exceptions thrown by Cantera

@@ -1,0 +1,1 @@
+g++ -c cppwrapper.cpp && gfortran -o test cppwrapper.o fwrapper.f -lc -lstdc++
