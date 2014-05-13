@@ -14,7 +14,7 @@
 
 using namespace Cantera;
 
-void runexample(int temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot)
+void runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * & salida)
 {
 
 //Entradas desde KIVA
@@ -25,7 +25,7 @@ void runexample(int temperatura,double CellVolume,double CellPressure,double tfi
     // use reaction mechanism GRI-Mech 3.0
 //    char mechanism[]="gri30.cti\0"
 //end FIXME
-    IdealGasMix gas("gri30.cti");
+	IdealGasMix gas("gri30.cti");
     //IdealGasMix gas("gri30.cti", "gri30");//Da lo mismo que la línea anterior
 //FIXME
     //Averiguar el tipo gas para pasarlo a la función
@@ -98,6 +98,13 @@ void runexample(int temperatura,double CellVolume,double CellPressure,double tfi
         }
         f << std::endl;
     f.close();
+//    double composition;
+//    salida = new double[nsp];
+    for (k = 0; k < nsp; k++) {
+         salida[k]=c.moleFraction(k);
+    }
+
+//    salida = composition;
 
 //Salidas:
     //Las salidas se pasan a las unidades de KIVA en la interfase.
@@ -110,16 +117,39 @@ void runexample(int temperatura,double CellVolume,double CellPressure,double tfi
     //H_Inic(gas)-H_Fin(gas)
 }
 
+
 int main()
 {
 
     try {
-        int temperatura=2900.0;
+        double temperatura=2900.0;
         double CellVolume=1;
         double CellPressure=OneAtm;
         double tfinal = 1.0e-6;//KIVA time step is reactor's final time
-        double fuel_mdot = 20.0; //fuel_mdot=CellDensity*CellVolume/tfinal
-        runexample(temperatura, CellVolume, CellPressure, tfinal,fuel_mdot);
+        double fuel_mdot = 20.0;//fuel_mdot=CellDensity*CellVolume/tfinal
+	double *salida;
+	IdealGasMix gas("gri30.cti");
+	int k,nsp=gas.nSpecies();
+	salida = new double[nsp];
+        for (k = 0; k < nsp; k++) {
+            salida [k]=0.0;
+        }
+	/*Comandos para saber a qué indice coresponde un compuesto
+	python3
+	import cantera as ct
+	gas1=ct.Solution("gri30.cti")
+	gas1.species_index('AR')
+	*/
+	//"CH4:1.0, N2:0.78, O2:0.21, AR:0.0");
+	salida[13]=1.0;//CH4:1.0
+	salida[47]=0.78;//N2:0.78
+	salida[3]=0.21;//O2:0.2
+	salida[48]=0.0;//AR:0.0
+
+        runexample(temperatura, CellVolume, CellPressure, tfinal,fuel_mdot, * & salida);
+        for (k = 0; k < nsp; k++) {
+            std::cout << salida[k] << std::endl;
+        }
         return 0;
     }
     // handle exceptions thrown by Cantera

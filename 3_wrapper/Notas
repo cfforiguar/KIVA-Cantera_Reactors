@@ -1,1 +1,3 @@
+-http://www.cplusplus.com/forum/general/74494/
+
 g++ -c cppwrapper.cpp && gfortran -o test cppwrapper.o fwrapper.f -lc -lstdc++
