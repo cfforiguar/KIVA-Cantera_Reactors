@@ -14,17 +14,9 @@
 
 using namespace Cantera;
 
-void runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * & salida)
+void runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * & Y)
 {
-
-//Entradas desde KIVA
-    //KIVA temperatura
-    //int temperatura=2900.0;
-//FIXME
-//Hacer que pueda usar cualquier nombre de mecanismo con una longitud arbitraria
-    // use reaction mechanism GRI-Mech 3.0
-//    char mechanism[]="gri30.cti\0"
-//end FIXME
+	//TODO: Cambiar el nombre del mecanismo por uno estático.
 	IdealGasMix gas("gri30.cti");
     //IdealGasMix gas("gri30.cti", "gri30");//Da lo mismo que la línea anterior
 //FIXME
@@ -32,17 +24,10 @@ void runexample(double temperatura,double CellVolume,double CellPressure,double 
     int nsp = gas.nSpecies();
 //end FIXME
     //double composition(nsp)//
-    //create a reservoir for the fuel inlet, and set to pure methane.
-    //double CellVolume=1;
-    //double CellPressure=OneAtm;
-    //double tfinal = 1.0e-6;//KIVA time step is reactor's final time
-    //double fuel_mdot = 20.0; //fuel_mdot=CellDensity*CellVolume/tfinal
-//FIXME
-    //Pasar un array con la composición en número no una cadena
-//end FIXME
 
+    //create a reservoir for the fuel inlet, and set to cell's composition.
     Reservoir fuel_in;
-    gas.setState_TPX(temperatura,CellPressure, "CH4:1.0, N2:0.78, O2:0.21, AR:0.0");
+    gas.setState_TPY(temperatura,CellPressure, Y);
     fuel_in.insert(gas);
     double fuel_mw = gas.meanMolecularWeight();
 
@@ -50,7 +35,7 @@ void runexample(double temperatura,double CellVolume,double CellPressure,double 
     // create the combustor, and fill it in initially with N2
 
     //gas.setState_TPX(300.0, OneAtm, "N2:1.0");//Interesante resultado, el reactor tarda en sacar el nitrógeno OJO KIVA
-    gas.setState_TPX(temperatura, CellPressure, "CH4:1.0, N2:0.78, O2:0.21, AR:0.0");
+    gas.setState_TPY(temperatura, CellPressure, Y);
     Reactor combustor;
     combustor.insert(gas);
     combustor.setInitialVolume(CellVolume);
@@ -101,7 +86,7 @@ void runexample(double temperatura,double CellVolume,double CellPressure,double 
 //    double composition;
 //    salida = new double[nsp];
     for (k = 0; k < nsp; k++) {
-         salida[k]=c.moleFraction(k);
+         Y[k]=c.moleFraction(k);
     }
 
 //    salida = composition;
@@ -128,8 +113,12 @@ int main()
         double tfinal = 1.0e-6;//KIVA time step is reactor's final time
         double fuel_mdot = 20.0;//fuel_mdot=CellDensity*CellVolume/tfinal
 	double *salida;
+	//FIXME: -Inicializar el gas en otro lado
+	//       -Ver si el gas cambia para sólo usar uno para todos los reactores
+	//	 -usar una ct_nsp para manejar aparte el nsp de kiva
 	IdealGasMix gas("gri30.cti");
 	int k,nsp=gas.nSpecies();
+	//end FIXME
 	salida = new double[nsp];
         for (k = 0; k < nsp; k++) {
             salida [k]=0.0;
