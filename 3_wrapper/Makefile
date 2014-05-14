@@ -18,11 +18,11 @@ OBJS=$(subst .cpp,.o,$(SRCS))
 #all: test
 
 test: $(OBJS)
-	$(FC) $(LDFLAGS) -o test $(OBJS) fwrapper.f -lc -lstdc++
+	$(FC) $(LDFLAGS) -o test $(OBJS) fwrapper.f -lc -lstdc++ $(LDLIBS) 
 	
 
 %.o: %.cpp
-	$(CXX) $(LDFLAGS) -c $<  
+	$(CXX) $(LDFLAGS) -c $< $(LDLIBS) $(CANTERA_INCLUDES)
 
 clean:
 	$(RM) $(OBJS)

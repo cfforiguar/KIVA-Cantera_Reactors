@@ -1,7 +1,7 @@
       program wrapper_f
-      real aNumber
-      real bNumber
-      real ins(10), outs(10)
+      double precision aNumber
+      double precision bNumber
+      double precision ins(10), outs(10)
       integer i
 
       ins(1) = 1
