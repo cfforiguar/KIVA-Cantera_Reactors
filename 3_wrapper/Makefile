@@ -12,14 +12,17 @@ CPPFLAGS=$(CANTERA_INCLUDES)
 LDFLAGS=  
 LDLIBS=$(CANTERA_LIBS)
 
-SRCS=cppwrapper.cpp
-OBJS=$(subst .cpp,.o,$(SRCS))
+SRCScpp=cppwrapper.cpp
+SRCSf90=fwrapper.f
+OBJS=$(subst .f90,.o,$(SRCSf90)) $(subst .cpp,.o,$(SRCScpp))
 
-#all: test
+all: test
 
 test: $(OBJS)
-	$(FC) $(LDFLAGS) -o test $(OBJS) fwrapper.f -lc -lstdc++ $(LDLIBS) 
+	$(FC) $(LDFLAGS) -o test $(OBJS)  -lc -lstdc++ $(LDLIBS) 
 	
+%.o : %.f90
+	$(F90) -c $<
 
 %.o: %.cpp
 	$(CXX) $(LDFLAGS) -c $< $(LDLIBS) $(CANTERA_INCLUDES)

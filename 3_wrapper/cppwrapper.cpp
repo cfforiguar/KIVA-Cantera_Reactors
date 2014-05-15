@@ -94,60 +94,13 @@ void runexample(double temperatura,double CellVolume,double CellPressure,double 
     //H_Inic(gas)-H_Fin(gas)
 }
 
-int cppFn()
-{
-    try {
-        double temperatura=2900.0;
-        double CellVolume=1;
-        double CellPressure=OneAtm;
-        double tfinal = 1.0e-6;//KIVA time step is reactor's final time
-        double fuel_mdot = 20.0;//fuel_mdot=CellDensity*CellVolume/tfinal
-	double *salida;
-	//FIXME: -Inicializar el gas en otro lado
-	//       -Ver si el gas cambia para sólo usar uno para todos los reactores
-	//	 -usar una ct_nsp para manejar aparte el nsp de kiva
-	IdealGasMix gas("gri30.cti");
-	int k,nsp=gas.nSpecies();
-	//end FIXME
-	salida = new double[nsp];
-        for (k = 0; k < nsp; k++) {
-            salida [k]=0.0;
-        }
-	/*Comandos para saber a qué indice coresponde un compuesto
-	python3
-	import cantera as ct
-	gas1=ct.Solution("gri30.cti")
-	gas1.species_index('AR')
-	*/
-	//"CH4:1.0, N2:0.78, O2:0.21, AR:0.0");
-	salida[13]=1.0;//CH4:1.0
-	salida[47]=0.78;//N2:0.78
-	salida[3]=0.21;//O2:0.2
-	salida[48]=0.0;//AR:0.0
-
-        runexample(temperatura, CellVolume, CellPressure, tfinal,fuel_mdot, * & salida);
-        for (k = 0; k < nsp; k++) {
-            std::cout << salida[k] << std::endl;
-        }
-        return 0;
-    }
-    // handle exceptions thrown by Cantera
-    catch (CanteraError& err) {
-        std::cout << err.what() << std::endl;
-        std::cout << " terminating... " << std::endl;
-        appdelete();
-        return 1;
-    }
-
-}
-
 extern "C"
-int wrapper_c_(float *ins, float *outs)
+int wrapper_c_(double *ins, double *salida)
 {
-	float test;
+	double test;
 	test=*ins+*ins;
 	//outs=test;
-	outs=&test;
+	//outs=&test;
 	std::cout << ins << std::endl;
 	std::cout << test << std::endl;
 	std::cout << "C++ wrapper" << std::endl;
@@ -158,14 +111,19 @@ int wrapper_c_(float *ins, float *outs)
         double CellPressure=OneAtm;
         double tfinal = 1.0e-6;//KIVA time step is reactor's final time
         double fuel_mdot = 20.0;//fuel_mdot=CellDensity*CellVolume/tfinal
-	double *salida;
+//	double *salida;
+	ins[0]=temperatura;
+	ins[1]=CellVolume;
+	ins[2]=CellPressure;
+	ins[3]=tfinal;
+	ins[4]=fuel_mdot;
 	//FIXME: -Inicializar el gas en otro lado
 	//       -Ver si el gas cambia para sólo usar uno para todos los reactores
 	//	 -usar una ct_nsp para manejar aparte el nsp de kiva
 	IdealGasMix gas("gri30.cti");
 	int k,nsp=gas.nSpecies();
 	//end FIXME
-	salida = new double[nsp];
+//	salida = new double[nsp];
         for (k = 0; k < nsp; k++) {
             salida [k]=0.0;
         }
@@ -181,10 +139,20 @@ int wrapper_c_(float *ins, float *outs)
 	salida[3]=0.21;//O2:0.2
 	salida[48]=0.0;//AR:0.0
 
-        runexample(temperatura, CellVolume, CellPressure, tfinal,fuel_mdot, * & salida);
+        runexample(ins[0], CellVolume, CellPressure, tfinal,fuel_mdot, * & salida);
         for (k = 0; k < nsp; k++) {
             std::cout << salida[k] << std::endl;
         }
+    	std::ofstream f("datos_cpp.csv",std::ios_base::app);
+	f.setf(std::ios_base::scientific);
+	f.precision(20);
+	//cout.precision(10);
+	//f << std::scientific <<;
+        for (k = 0; k < nsp; k++) {
+            f << salida[k] << ", ";
+        }
+        f << std::endl;
+	f.close();
         return 0;
     }
     // handle exceptions thrown by Cantera
@@ -194,7 +162,4 @@ int wrapper_c_(float *ins, float *outs)
         appdelete();
         return 1;
     }
-
-
-
 }
