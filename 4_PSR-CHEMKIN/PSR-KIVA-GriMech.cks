@@ -1,0 +1,20 @@
+#
+#Sun Jun 15 17:20:30 COT 2014
+C\:\\Documents\ and\ Settings\\SalaCAD\\chemkin\\PSR-KIVA__OUT_TRAN_OUTPUT=
+Chemistry\ Set\ Name=PSR-KIVA
+C\:\\Documents\ and\ Settings\\SalaCAD\\chemkin\\PSR-KIVA__OUT_CHEM_ASC=C\:\\Documents and Settings\\SalaCAD\\chemkin\\PSR-KIVA\\PSR-KIVA-GriMech_gas.asc
+Chemistry\ Set\ Description=
+C\:\\Documents\ and\ Settings\\SalaCAD\\chemkin\\PSR-KIVA__OUT_CHEM_SPECIES=C\:\\Documents and Settings\\SalaCAD\\chemkin\\PSR-KIVA\\PSR-KIVA-GriMech_gas.asu
+C\:\\Documents\ and\ Settings\\SalaCAD\\chemkin\\PSR-KIVA__OUT_SURF_SPECIES=
+IN_THERM_DB=C\:\\Documents and Settings\\SalaCAD\\chemkin\\PSR-KIVA\\Grimech3\\thermgrimech30.dat
+C\:\\Documents\ and\ Settings\\SalaCAD\\chemkin\\PSR-KIVA__OUT_TRAN_ASC=
+SYSTEM_FLAG=FALSE
+IN_CHEM_INPUT=C\:\\Documents and Settings\\SalaCAD\\chemkin\\PSR-KIVA\\Grimech3\\grimech30.inp
+C\:\\Documents\ and\ Settings\\SalaCAD\\chemkin\\PSR-KIVA__OUT_SURF_ASC=
+IN_TRANS_DB=
+C\:\\Documents\ and\ Settings\\SalaCAD\\chemkin\\PSR-KIVA__OUT_CHEM_OUTPUT=C\:\\Documents and Settings\\SalaCAD\\chemkin\\PSR-KIVA\\PSR-KIVA-GriMech_gas.out
+C\:\\Documents\ and\ Settings\\SalaCAD\\chemkin\\PSR-KIVA__OUT_SURF_OUTPUT=
+IN_SURF_INPUT=
+C\:\\Documents\ and\ Settings\\SalaCAD\\chemkin\\PSR-KIVA__OUT_XML_PARAMETERS=C\:\\Documents and Settings\\SalaCAD\\chemkin\\PSR-KIVA\\PSR-KIVA.xml
+FIT_TRANSPORT_PROPERTIES=0
+C\:\\Documents\ and\ Settings\\SalaCAD\\chemkin\\PSR-KIVA__Run_Result=PREPROCESS_OK_42

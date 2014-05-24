@@ -1,0 +1,51 @@
+Execution of Job Resulted in the Following Lines of Output:
+
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>REM Chemkin-Generated Batch Job Command File 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>REM get the Chemkin runtime environment defined 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>CALL "C:\Archivos de programa\Reaction\chemkin15083_pc\bin\run_chemkin_env_setup.bat" 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>set REACTION_DIR=C:\Archivos de programa\Reaction 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>set CHEMKIN_VERS=15083 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>set CHEMKIN_BIN=C:\Archivos de programa\Reaction\chemkin15083_pc\bin 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>set CHEMKIN_TITLE=CHEMKIN-PRO 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>set CHEMKIN_RELEASE_NUMBER=Release 15083 (17-Apr-2009) 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>set PATH=C:\Archivos de programa\Reaction\chemkin15083_pc\bin;C:\Archivos de programa\Reaction\chemkin15083_pc\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\ARCHIV~1\ATT\Graphviz\bin; 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>if "xx" == "xx" goto done_userpath 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>SET JAVA_ID=304094661 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>REM DELETE ANY INTERMEDIATE FILES LEFTOVER FROM PREVIOUS RUN 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>IF EXIST "C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001\XMLdata.zip" DEL /F /Q "C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001\XMLdata.zip" 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>REM COPY FILES TO WORKING DIR 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>COPY "C:\Archivos de programa\Reaction\chemkin15083_pc\data\chemkindata.dtd" "C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001" 
+        1 archivos copiados.
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>REM RUN THE JOB AND CAPTURE EXIT STATUS 
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>CKReactorGenericPSR -i "C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001\PSR-KIVA.inp" -o "C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001\PSR-KIVA.out" -m "PSR-KIVA.out.mon" -c "C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA-GriMech_gas.asc" 
+This program requires FLEXLM version 10.1.3 (or higher) for both the Lmgrd and the Reaction license daemons.
+Running GUI Mode
+ERROR condition returned from AURORA
+
+
+License CHEMKIN Checked In
+License AURORA Checked In
+License CHEMKIN_PRO Checked In
+Licenses Released
+
+C:\Documents and Settings\SalaCAD\chemkin\PSR-KIVA\PSR-KIVA_20140615_173026\RUN_000001>exit 1 
+
+
+

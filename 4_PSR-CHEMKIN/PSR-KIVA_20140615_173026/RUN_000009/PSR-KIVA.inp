@@ -1,0 +1,14 @@
+ENRG   ! Solve Gas Energy Equation
+TRAN   ! Transient Solver
+!Surface_Temperature   ! Surface Temperature Same as Gas Temperature
+FLRT 5.0E4   ! Mass Flow Rate (g/sec)
+QLOS 0.0   ! Heat Loss (cal/sec)
+TEMP 3500.0   ! Temperature (K)
+TINL 3500.0   ! Inlet Temperature (K)
+VOL 1.0E6   ! Volume (cm3)
+ADAP   ! Save Additional Adaptive Points
+ASTEPS 20   ! Use Solver Integration Steps
+TIME 6.0   ! End Time (sec)
+GFAC 1.0   ! Gas Reaction Rate Multiplier
+! Number of Continuation 0   ! Continuation Count
+END

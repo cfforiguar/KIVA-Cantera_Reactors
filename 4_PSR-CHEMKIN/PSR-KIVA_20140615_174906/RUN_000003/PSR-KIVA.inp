@@ -1,0 +1,21 @@
+ENRG   ! Solve Gas Energy Equation
+TRAN   ! Transient Solver
+!Surface_Temperature   ! Surface Temperature Same as Gas Temperature
+FLRT 5.0E4   ! Mass Flow Rate (g/sec)
+PRES 1.0   ! Pressure (atm)
+QLOS 0.0   ! Heat Loss (cal/sec)
+TEMP 1100.0   ! Temperature (K)
+TINL 1100.0   ! Inlet Temperature (K)
+VOL 1.0E6   ! Volume (cm3)
+REAC CH4 0.644335903   ! Reactant Fraction (mole fraction)
+REAC N2 0.287824333   ! Reactant Fraction (mole fraction)
+REAC O2 0.067839764   ! Reactant Fraction (mole fraction)
+XEST CH4 0.644335903   ! Initial Gas Fraction (mole fraction)
+XEST N2 0.287824333   ! Initial Gas Fraction (mole fraction)
+XEST O2 0.067839764   ! Initial Gas Fraction (mole fraction)
+ADAP   ! Save Additional Adaptive Points
+ASTEPS 20   ! Use Solver Integration Steps
+TIME 6.0   ! End Time (sec)
+GFAC 1.0   ! Gas Reaction Rate Multiplier
+! Number of Continuation 0   ! Continuation Count
+END

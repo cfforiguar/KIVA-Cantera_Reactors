@@ -1,0 +1,56 @@
+
+
+     *****************************************************************
+     *                   CHEMKIN-PRO Release 15083                   *
+     *                      AURORA Application                       *
+     *         PERFECTLY STIRRED OR PLUG FLOW REACTOR MODEL          *
+     * Copyright(c) 1997-2008 Reaction Design.  All Rights Reserved. *
+     *****************************************************************
+
+
+
+                WORKING SPACE REQUIREMENTS
+                 PROVIDED        REQUIRED 
+ LOGICAL              145            145
+ INTEGER            51313          51313
+ REAL               89052          89052
+ CHARACTER            175            175
+
+This problem requires      0.679MB of memory for the REAL array.
+
+Initializing CHEMKIN Gas-phase Library a component of CHEMKIN-PRO Release 15083, Build date: Apr 17, 2009
+This and All Other CHEMKIN(R) Libraries are Copyright (c) 1997-2008 Reaction Design.  All rights reserved.
+
+
+LICENSE INFORMATION: 
+ 
+
+ò                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+
+           KEYWORD INPUT 
+
+          ENRG   ! Solve Gas Energy Equation
+          TRAN   ! Transient Solver
+          !Surface_Temperature   ! Surface Temperature Same as Gas Temperature
+          FLRT 5.0E4   ! Mass Flow Rate (g/sec)
+          QLOS 0.0   ! Heat Loss (cal/sec)
+          TEMP 1900.0   ! Temperature (K)
+          TINL 1900.0   ! Inlet Temperature (K)
+          VOL 1.0E6   ! Volume (cm3)
+          ADAP   ! Save Additional Adaptive Points
+          ASTEPS 20   ! Use Solver Integration Steps
+          TIME 6.0   ! End Time (sec)
+          GFAC 1.0   ! Gas Reaction Rate Multiplier
+          ! Number of Continuation 0   ! Continuation Count
+          END
+  ERROR...REACTANT MOLE FRACTIONS SUM TO   0.000000000000000E+000
+          FOR STREAM INLET1
+
+ ERROR: INPUT OR PROBLEM SETUP ERRORS MUST BE CORRECTED BEFORE PROCEEDING
+
+***NOTE:  There are ERROR messages in the printout above***
+
+ERROR condition returned from AURORA
+
+
+ Total CPUtime: 1 second or less

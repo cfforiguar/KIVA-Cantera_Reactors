@@ -1,0 +1,115 @@
+PSR-KIVA
+1
+PSR (C1)
+0
+79
+volume 1 0 0
+external_surface_area 1 0 0
+exit_mass_flow_rate 1 0 0
+net_heat_production_from_gas-phase_reactions 1 0 0
+surface_temperature 1 0 0
+heat_loss_rate 1 0 0
+temperature 1 0 0
+mass 1 0 0
+pressure 1 0 0
+H2 1 0 0
+H 1 0 0
+O 1 0 0
+O2 1 0 0
+OH 1 0 0
+H2O 1 0 0
+HO2 1 0 0
+H2O2 1 0 0
+C 1 0 0
+CH 1 0 0
+CH2 1 0 0
+CH2(S) 1 0 0
+CH3 1 0 0
+CH4 1 0 0
+CO 1 0 0
+CO2 1 0 0
+HCO 1 0 0
+CH2O 1 0 0
+CH2OH 1 0 0
+CH3O 1 0 0
+CH3OH 1 0 0
+C2H 1 0 0
+C2H2 1 0 0
+C2H3 1 0 0
+C2H4 1 0 0
+C2H5 1 0 0
+C2H6 1 0 0
+HCCO 1 0 0
+CH2CO 1 0 0
+HCCOH 1 0 0
+N 1 0 0
+NH 1 0 0
+NH2 1 0 0
+NH3 1 0 0
+NNH 1 0 0
+NO 1 0 0
+NO2 1 0 0
+N2O 1 0 0
+HNO 1 0 0
+CN 1 0 0
+HCN 1 0 0
+H2CN 1 0 0
+HCNN 1 0 0
+HCNO 1 0 0
+HOCN 1 0 0
+HNCO 1 0 0
+NCO 1 0 0
+N2 1 0 0
+AR 1 0 0
+C3H7 1 0 0
+C3H8 1 0 0
+CH2CHO 1 0 0
+CH3CHO 1 0 0
+molar_conversion 0 0 0
+net_reaction_rate 0 0 0
+heat_production_per_reaction 0 0 0
+molecular_weight 1 0 0
+mass_density 1 0 0
+mixture_enthalpy 0 0 0
+sensible_enthalpy 0 0 0
+emission_index 0 0 0
+unburned_hydrocarbons 1 0 0
+volatile_organic_compounds 1 0 0
+thermal-NO_production 0 0 0
+total_NOx_production 0 0 0
+exhaust_in_ppmvd 0 0 0
+exhaust_in_ppmvd_15%_O2 0 0 0
+inlet_properties 1 0 0
+all_single_point_values 1 0 0
+use_reaction_string_instead_of_index 0 0 0
+29
+(sec)
+(cm)
+(K)
+(eV)
+(atm)
+(cm2)
+(cm3)
+(cm3/g)
+(g/cm3)
+(cm/sec)
+(g/sec)
+(cm3/sec)
+(g/cm2-sec)
+(erg/g)
+(erg/g-K)
+(cal/sec)
+(cal/cm-sec)
+(cal/cm2-sec)
+(erg/cm3-sec)
+(watts)
+(mole/cm2)
+(cm/sec)
+(mole_fraction)
+(mole/cm3)
+(molecules/cm3)
+(local_normalization)
+(mole/cm3-sec)
+(mole/cm2-sec)
+(mole/cm2-sec)
+0 -9999 10 1.0E-8 1.0
