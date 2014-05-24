@@ -1,0 +1,1335 @@
+<?xml version="1.0"?>
+<ctml>
+  <validate reactions="yes" species="yes"/>
+
+  <!-- phase gas     -->
+  <phase dim="3" id="gas">
+    <elementArray datasrc="elements.xml">H C O N</elementArray>
+    <speciesArray datasrc="#species_data">
+      nc7h16   o2       n2       co2      h2o      
+      h        h2       o        n        oh       
+      co       no       h2o2     ho2      ch3o     
+      ch2o     hco      ch2      ch3      ch4      
+      c2h3     c2h4     c2h5     c3h4     c3h5     
+      c3h6     c3h7     c7h15-2  c7h15o2  c7ket12  
+      c5h11co  </speciesArray>
+    <reactionArray datasrc="#reaction_data"/>
+    <state>
+      <temperature units="K">300.0</temperature>
+      <pressure units="Pa">101325.0</pressure>
+    </state>
+    <thermo model="IdealGas"/>
+    <kinetics model="GasKinetics"/>
+    <transport model="None"/>
+  </phase>
+
+  <!-- species definitions     -->
+  <speciesData id="species_data">
+
+    <!-- species no    -->
+    <species name="no">
+      <atomArray>O:1 N:1 </atomArray>
+      <note>RUS78</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="200.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             4.218476300E+00,  -4.638976000E-03,   1.104102200E-05,  -9.336135400E-09, 
+             2.803577000E-12,   9.844623000E+03,   2.280846400E+00</floatArray>
+        </NASA>
+        <NASA Tmax="6000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.260605600E+00,   1.191104300E-03,  -4.291704800E-07,   6.945766900E-11, 
+             -4.033609900E-15,   9.920974600E+03,   6.369302700E+00</floatArray>
+        </NASA>
+      </thermo>
+      <transport model="gas_transport">
+        <string title="geometry">linear</string>
+        <LJ_welldepth units="K">97.530</LJ_welldepth>
+        <LJ_diameter units="A">3.621</LJ_diameter>
+        <dipoleMoment units="Debye">0.000</dipoleMoment>
+        <polarizability units="A3">1.760</polarizability>
+        <rotRelax>4.000</rotRelax>
+      </transport>
+    </species>
+
+    <!-- species n    -->
+    <species name="n">
+      <atomArray>N:1 </atomArray>
+      <note>L6/88</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="200.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.500000000E+00,   0.000000000E+00,   0.000000000E+00,   0.000000000E+00, 
+             0.000000000E+00,   5.610463700E+04,   4.193908700E+00</floatArray>
+        </NASA>
+        <NASA Tmax="6000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.415942900E+00,   1.748906500E-04,  -1.190236900E-07,   3.022624500E-11, 
+             -2.036098200E-15,   5.613377300E+04,   4.649609600E+00</floatArray>
+        </NASA>
+      </thermo>
+      <transport model="gas_transport">
+        <string title="geometry">atom</string>
+        <LJ_welldepth units="K">71.400</LJ_welldepth>
+        <LJ_diameter units="A">3.298</LJ_diameter>
+        <dipoleMoment units="Debye">0.000</dipoleMoment>
+        <polarizability units="A3">0.000</polarizability>
+        <rotRelax>0.000</rotRelax>
+      </transport>
+    </species>
+
+    <!-- species nc7h16    -->
+    <species name="nc7h16">
+      <atomArray>H:16 C:7 </atomArray>
+      <note>2/10/95</note>
+      <thermo>
+        <NASA Tmax="1391.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             -1.268361870E+00,   8.543558200E-02,  -5.253467860E-05,   1.629457210E-08, 
+             -2.023949250E-12,  -2.565865650E+04,   3.537329120E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1391.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.221489690E+01,   3.476757500E-02,  -1.184071290E-05,   1.832984780E-09, 
+             -1.061302660E-13,  -3.427600810E+04,  -9.230401960E+01</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species o2    -->
+    <species name="o2">
+      <atomArray>O:2 </atomArray>
+      <note>121386</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.212936000E+00,   1.127486000E-03,  -5.756150000E-07,   1.313877000E-09, 
+             -8.768554000E-13,  -1.005249000E+03,   6.034738000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.697578000E+00,   6.135197000E-04,  -1.258842000E-07,   1.775281000E-11, 
+             -1.136435000E-15,  -1.233930000E+03,   3.189166000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species n2    -->
+    <species name="n2">
+      <atomArray>N:2 </atomArray>
+      <note>121286</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.298677000E+00,   1.408240000E-03,  -3.963222000E-06,   5.641515000E-09, 
+             -2.444855000E-12,  -1.020900000E+03,   3.950372000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.926640000E+00,   1.487977000E-03,  -5.684761000E-07,   1.009704000E-10, 
+             -6.753351000E-15,  -9.227977000E+02,   5.980528000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species co2    -->
+    <species name="co2">
+      <atomArray>C:1 O:2 </atomArray>
+      <note>121286</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.275725000E+00,   9.922072000E-03,  -1.040911000E-05,   6.866687000E-09, 
+             -2.117280000E-12,  -4.837314000E+04,   1.018849000E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             4.453623000E+00,   3.140169000E-03,  -1.278411000E-06,   2.393997000E-10, 
+             -1.669033000E-14,  -4.896696000E+04,  -9.553959000E-01</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species h2o    -->
+    <species name="h2o">
+      <atomArray>H:2 O:1 </atomArray>
+      <note>20387</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.386842000E+00,   3.474982000E-03,  -6.354696000E-06,   6.968581000E-09, 
+             -2.506588000E-12,  -3.020811000E+04,   2.590233000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.672146000E+00,   3.056293000E-03,  -8.730260000E-07,   1.200996000E-10, 
+             -6.391618000E-15,  -2.989921000E+04,   6.862817000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species co    -->
+    <species name="co">
+      <atomArray>C:1 O:1 </atomArray>
+      <note>121286</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.262452000E+00,   1.511941000E-03,  -3.881755000E-06,   5.581944000E-09, 
+             -2.474951000E-12,  -1.431054000E+04,   4.848897000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.025078000E+00,   1.442689000E-03,  -5.630828000E-07,   1.018581000E-10, 
+             -6.910952000E-15,  -1.426835000E+04,   6.108218000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species h2    -->
+    <species name="h2">
+      <atomArray>H:2 </atomArray>
+      <note>121286</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.298124000E+00,   8.249442000E-04,  -8.143015000E-07,  -9.475434000E-11, 
+             4.134872000E-13,  -1.012521000E+03,  -3.294094000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.991423000E+00,   7.000644000E-04,  -5.633829000E-08,  -9.231578000E-12, 
+             1.582752000E-15,  -8.350340000E+02,  -1.355110000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species oh    -->
+    <species name="oh">
+      <atomArray>H:1 O:1 </atomArray>
+      <note>121286</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.637266000E+00,   1.850910000E-04,  -1.676165000E-06,   2.387203000E-09, 
+             -8.431442000E-13,   3.606782000E+03,   1.358860000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.882730000E+00,   1.013974000E-03,  -2.276877000E-07,   2.174684000E-11, 
+             -5.126305000E-16,   3.886888000E+03,   5.595712000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species h2o2    -->
+    <species name="h2o2">
+      <atomArray>H:2 O:2 </atomArray>
+      <note>120186</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.388754000E+00,   6.569226000E-03,  -1.485013000E-07,  -4.625806000E-09, 
+             2.471515000E-12,  -1.766315000E+04,   6.785363000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             4.573167000E+00,   4.336136000E-03,  -1.474689000E-06,   2.348904000E-10, 
+             -1.431654000E-14,  -1.800696000E+04,   5.011370000E-01</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species ho2    -->
+    <species name="ho2">
+      <atomArray>H:1 O:2 </atomArray>
+      <note>20387</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.979963000E+00,   4.996697000E-03,  -3.790997000E-06,   2.354192000E-09, 
+             -8.089024000E-13,   1.762274000E+02,   9.222724000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             4.072191000E+00,   2.131296000E-03,  -5.308145000E-07,   6.112269000E-11, 
+             -2.841165000E-15,  -1.579727000E+02,   3.476029000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species h    -->
+    <species name="h">
+      <atomArray>H:1 </atomArray>
+      <note>120186</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.500000000E+00,   0.000000000E+00,   0.000000000E+00,   0.000000000E+00, 
+             0.000000000E+00,   2.547163000E+04,  -4.601176000E-01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.500000000E+00,   0.000000000E+00,   0.000000000E+00,   0.000000000E+00, 
+             0.000000000E+00,   2.547163000E+04,  -4.601176000E-01</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species o    -->
+    <species name="o">
+      <atomArray>O:1 </atomArray>
+      <note>120186</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.946429000E+00,  -1.638166000E-03,   2.421032000E-06,  -1.602843000E-09, 
+             3.890696000E-13,   2.914764000E+04,   2.963995000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.542060000E+00,  -2.755062000E-05,  -3.102803000E-09,   4.551067000E-12, 
+             -4.368052000E-16,   2.923080000E+04,   4.920308000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species ch3o    -->
+    <species name="ch3o">
+      <atomArray>H:3 C:1 O:1 </atomArray>
+      <note>121686</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.106204000E+00,   7.216595000E-03,   5.338472000E-06,  -7.377636000E-09, 
+             2.075611000E-12,   9.786011000E+02,   1.315218000E+01</floatArray>
+        </NASA>
+        <NASA Tmax="3000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.770800000E+00,   7.871497000E-03,  -2.656384000E-06,   3.944431000E-10, 
+             -2.112616000E-14,   1.278325000E+02,   2.929575000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species ch2o    -->
+    <species name="ch2o">
+      <atomArray>H:2 C:1 O:1 </atomArray>
+      <note>121286</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             1.652731000E+00,   1.263144000E-02,  -1.888168000E-05,   2.050031000E-08, 
+             -8.413237000E-12,  -1.486540000E+04,   1.378482000E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.995606000E+00,   6.681321000E-03,  -2.628955000E-06,   4.737153000E-10, 
+             -3.212517000E-14,  -1.532037000E+04,   6.912572000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species hco    -->
+    <species name="hco">
+      <atomArray>H:1 C:1 O:1 </atomArray>
+      <note>121286</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.898330000E+00,   6.199147000E-03,  -9.623084000E-06,   1.089825000E-08, 
+             -4.574885000E-12,   4.159922000E+03,   8.983614000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.557271000E+00,   3.345573000E-03,  -1.335006000E-06,   2.470573000E-10, 
+             -1.713851000E-14,   3.916324000E+03,   5.552299000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species ch2    -->
+    <species name="ch2">
+      <atomArray>H:2 C:1 </atomArray>
+      <note>120186</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="250.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.762237000E+00,   1.159819000E-03,   2.489585000E-07,   8.800836000E-10, 
+             -7.332435000E-13,   4.536791000E+04,   1.712578000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="4000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.636408000E+00,   1.933057000E-03,  -1.687016000E-07,  -1.009899000E-10, 
+             1.808256000E-14,   4.534134000E+04,   2.156561000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species ch3    -->
+    <species name="ch3">
+      <atomArray>H:3 C:1 </atomArray>
+      <note>121286</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.430443000E+00,   1.112410000E-02,  -1.680220000E-05,   1.621829000E-08, 
+             -5.864953000E-12,   1.642378000E+04,   6.789794000E+00</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.844052000E+00,   6.137974000E-03,  -2.230345000E-06,   3.785161000E-10, 
+             -2.452159000E-14,   1.643781000E+04,   5.452697000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species ch4    -->
+    <species name="ch4">
+      <atomArray>H:4 C:1 </atomArray>
+      <note>121286</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             7.787415000E-01,   1.747668000E-02,  -2.783409000E-05,   3.049708000E-08, 
+             -1.223931000E-11,  -9.825229000E+03,   1.372219000E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             1.683479000E+00,   1.023724000E-02,  -3.875129000E-06,   6.785585000E-10, 
+             -4.503423000E-14,  -1.008079000E+04,   9.623395000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species c2h3    -->
+    <species name="c2h3">
+      <atomArray>H:3 C:2 </atomArray>
+      <note>12787</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.459276000E+00,   7.371476000E-03,   2.109873000E-06,  -1.321642000E-09, 
+             -1.184784000E-12,   3.335225000E+04,   1.155620000E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             5.933468000E+00,   4.017746000E-03,  -3.966740000E-07,  -1.441267000E-10, 
+             2.378644000E-14,   3.185435000E+04,  -8.530313000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species c2h4    -->
+    <species name="c2h4">
+      <atomArray>H:4 C:2 </atomArray>
+      <note>121286</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             -8.614880000E-01,   2.796163000E-02,  -3.388677000E-05,   2.785152000E-08, 
+             -9.737879000E-12,   5.573046000E+03,   2.421149000E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.528419000E+00,   1.148518000E-02,  -4.418385000E-06,   7.844601000E-10, 
+             -5.266848000E-14,   4.428289000E+03,   2.230389000E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species c2h5    -->
+    <species name="c2h5">
+      <atomArray>H:5 C:2 </atomArray>
+      <note>12387</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.690702000E+00,   8.719133000E-03,   4.419839000E-06,   9.338703000E-10, 
+             -3.927773000E-12,   1.287040000E+04,   1.213820000E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             7.190480000E+00,   6.484077000E-03,  -6.428065000E-07,  -2.347879000E-10, 
+             3.880877000E-14,   1.067455000E+04,  -1.478089000E+01</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species c3h4    -->
+    <species name="c3h4">
+      <atomArray>H:4 C:3 </atomArray>
+      <note>l12/92</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="200.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.613074870E+00,   1.212233710E-02,   1.854054000E-05,  -3.452584750E-08, 
+             1.533533890E-11,   2.154156420E+04,   1.025033190E+01</floatArray>
+        </NASA>
+        <NASA Tmax="6000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             6.316948690E+00,   1.113362620E-02,  -3.962890180E-06,   6.356337750E-10, 
+             -3.787498850E-14,   2.011746170E+04,  -1.097188620E+01</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species c3h5    -->
+    <species name="c3h5">
+      <atomArray>H:5 C:3 </atomArray>
+      <note>bur92</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="200.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.787946930E+00,   9.484143350E-03,   2.423433680E-05,  -3.656040100E-08, 
+             1.485923560E-11,   1.862612180E+04,   7.828224990E+00</floatArray>
+        </NASA>
+        <NASA Tmax="6000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             6.547611320E+00,   1.331522460E-02,  -4.783331000E-06,   7.719498140E-10, 
+             -4.619308080E-14,   1.727147070E+04,  -9.274868410E+00</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species c3h6    -->
+    <species name="c3h6">
+      <atomArray>H:6 C:3 </atomArray>
+      <note>5/27/97therm</note>
+      <thermo>
+        <NASA Tmax="1388.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             3.946154440E-01,   2.891076620E-02,  -1.548868080E-05,   3.888142090E-09, 
+             -3.378903520E-13,   1.066881640E+03,   2.190037360E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1388.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             8.015959580E+00,   1.370236340E-02,  -4.662497330E-06,   7.212544020E-10, 
+             -4.173701260E-14,  -1.878212710E+03,  -2.001606680E+01</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species c3h7    -->
+    <species name="c3h7">
+      <atomArray>H:7 C:3 </atomArray>
+      <note>n-l9/84</note>
+      <thermo>
+        <NASA Tmax="1000.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             1.051551800E+00,   2.599198000E-02,   2.380054000E-06,  -1.960956900E-08, 
+             9.373247000E-12,   1.063186300E+04,   2.112255900E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1000.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             7.702698700E+00,   1.604420300E-02,  -5.283322000E-06,   7.629859000E-10, 
+             -3.939228400E-14,   8.298433600E+03,  -1.548018000E+01</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species c7h15-2    -->
+    <species name="c7h15-2">
+      <atomArray>H:15 C:7 </atomArray>
+      <note>2/10/95</note>
+      <thermo>
+        <NASA Tmax="1382.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             -3.791557670E-02,   7.567265700E-02,  -4.074736340E-05,   9.326789430E-09, 
+             -4.923607450E-13,  -2.356053030E+03,   3.373215060E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1382.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.163688420E+01,   3.233248040E-02,  -1.092738070E-05,   1.683570600E-09, 
+             -9.717740910E-14,  -1.058736160E+04,  -8.522096530E+01</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species c7h15o2    -->
+    <species name="c7h15o2">
+      <atomArray>H:15 C:7 O:2 </atomArray>
+      <note>7/23/98</note>
+      <thermo>
+        <NASA Tmax="1390.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.374993340E+00,   8.346519060E-02,  -5.138973200E-05,   1.642176620E-08, 
+             -2.195052160E-12,  -1.992379610E+04,   2.530673420E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1390.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.490236890E+01,   3.507169200E-02,  -1.204403060E-05,   1.874648220E-09, 
+             -1.089477910E-13,  -2.829760500E+04,  -9.739235420E+01</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species c7ket12    -->
+    <species name="c7ket12">
+      <atomArray>H:14 C:7 O:3 </atomArray>
+      <note>7/23/98</note>
+      <thermo>
+        <NASA Tmax="1396.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             5.824336970E-01,   1.012078690E-01,  -7.658559960E-05,   3.007386060E-08, 
+             -4.829027920E-12,  -4.680544190E+04,   3.333314490E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1396.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.974729060E+01,   3.066222940E-02,  -1.055635900E-05,   1.646273430E-09, 
+             -9.581716750E-14,  -5.668568280E+04,  -1.224324900E+02</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+
+    <!-- species c5h11co    -->
+    <species name="c5h11co">
+      <atomArray>H:11 C:6 O:1 </atomArray>
+      <note>2/29/96</note>
+      <thermo>
+        <NASA Tmax="1383.0" Tmin="300.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             2.144790690E+00,   6.178635630E-02,  -3.741346900E-05,   1.132837950E-08, 
+             -1.369176980E-12,  -1.434511720E+04,   2.231280450E+01</floatArray>
+        </NASA>
+        <NASA Tmax="5000.0" Tmin="1383.0" P0="100000.0">
+           <floatArray name="coeffs" size="7">
+             1.947838120E+01,   2.504660290E-02,  -8.548613460E-06,   1.325579440E-09, 
+             -7.685032960E-14,  -2.079239370E+04,  -7.219955780E+01</floatArray>
+        </NASA>
+      </thermo>
+    </species>
+  </speciesData>
+  <reactionData id="reaction_data">
+
+    <!-- reaction 0001    -->
+    <reaction reversible="yes" id="0001">
+      <equation>nc7h16 + h [=] c7h15-2 + h2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>4.380000E+04</A>
+           <b>2.0</b>
+           <E units="cal/mol">4760.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>h:1 nc7h16:1.0</reactants>
+      <products>h2:1 c7h15-2:1.0</products>
+    </reaction>
+
+    <!-- reaction 0002    -->
+    <reaction reversible="yes" id="0002">
+      <equation>nc7h16 + oh [=] c7h15-2 + h2o</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>9.700000E+06</A>
+           <b>1.3</b>
+           <E units="cal/mol">1690.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>oh:1 nc7h16:1.0</reactants>
+      <products>c7h15-2:1.0 h2o:1</products>
+    </reaction>
+
+    <!-- reaction 0003    -->
+    <reaction reversible="yes" id="0003">
+      <equation>nc7h16 + ho2 [=] c7h15-2 + h2o2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.650000E+10</A>
+           <b>0.0</b>
+           <E units="cal/mol">16950.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ho2:1 nc7h16:1.0</reactants>
+      <products>c7h15-2:1.0 h2o2:1</products>
+    </reaction>
+
+    <!-- reaction 0004    -->
+    <reaction reversible="yes" id="0004">
+      <equation>nc7h16 + o2 [=] c7h15-2 + ho2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>2.000000E+12</A>
+           <b>0.0</b>
+           <E units="cal/mol">47380.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>o2:1 nc7h16:1.0</reactants>
+      <products>c7h15-2:1.0 ho2:1</products>
+    </reaction>
+
+    <!-- reaction 0005    -->
+    <reaction reversible="yes" id="0005">
+      <equation>c7h15-2 + o2 [=] c7h15o2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.560000E+09</A>
+           <b>0.0</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c7h15-2:1.0 o2:1</reactants>
+      <products>c7h15o2:1.0</products>
+    </reaction>
+
+    <!-- reaction 0006    -->
+    <reaction reversible="yes" id="0006">
+      <equation>c7h15o2 + o2 [=] c7ket12 + oh</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>4.500000E+11</A>
+           <b>0.0</b>
+           <E units="cal/mol">18232.712000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c7h15o2:1.0 o2:1</reactants>
+      <products>c7ket12:1.0 oh:1</products>
+    </reaction>
+
+    <!-- reaction 0007    -->
+    <reaction reversible="yes" id="0007">
+      <equation>c7ket12 [=] c5h11co + ch2o + oh</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>9.530000E+14</A>
+           <b>0.0</b>
+           <E units="cal/mol">41100.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c7ket12:1.0</reactants>
+      <products>ch2o:1 c5h11co:1.0 oh:1</products>
+    </reaction>
+
+    <!-- reaction 0008    -->
+    <reaction reversible="yes" id="0008">
+      <equation>c5h11co [=] c2h4 + c3h7 + co</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>9.840000E+15</A>
+           <b>0.0</b>
+           <E units="cal/mol">40200.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c5h11co:1.0</reactants>
+      <products>c3h7:1 c2h4:1.0 co:1</products>
+    </reaction>
+
+    <!-- reaction 0009    -->
+    <reaction reversible="yes" id="0009">
+      <equation>c7h15-2 [=] c2h5 + c2h4 + c3h6</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>7.045000E+14</A>
+           <b>0.0</b>
+           <E units="cal/mol">34600.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c7h15-2:1.0</reactants>
+      <products>c3h6:1 c2h5:1.0 c2h4:1</products>
+    </reaction>
+
+    <!-- reaction 0010    -->
+    <reaction reversible="yes" id="0010">
+      <equation>c3h7 [=] c2h4 + ch3</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>9.600000E+13</A>
+           <b>0.0</b>
+           <E units="cal/mol">30950.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c3h7:1.0</reactants>
+      <products>c2h4:1.0 ch3:1</products>
+    </reaction>
+
+    <!-- reaction 0011    -->
+    <reaction reversible="yes" id="0011">
+      <equation>c3h7 [=] c3h6 + h</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.250000E+14</A>
+           <b>0.0</b>
+           <E units="cal/mol">36900.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c3h7:1.0</reactants>
+      <products>c3h6:1.0 h:1</products>
+    </reaction>
+
+    <!-- reaction 0012    -->
+    <reaction reversible="yes" id="0012">
+      <equation>c3h6 + ch3 [=] c3h5 + ch4</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>9.000000E+09</A>
+           <b>0.0</b>
+           <E units="cal/mol">8480.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c3h6:1.0 ch3:1</reactants>
+      <products>c3h5:1.0 ch4:1</products>
+    </reaction>
+
+    <!-- reaction 0013    -->
+    <reaction reversible="yes" id="0013">
+      <equation>c3h5 + o2 [=] c3h4 + ho2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>6.000000E+08</A>
+           <b>0.0</b>
+           <E units="cal/mol">10000.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c3h5:1.0 o2:1</reactants>
+      <products>c3h4:1.0 ho2:1</products>
+    </reaction>
+
+    <!-- reaction 0014    -->
+    <reaction reversible="yes" id="0014">
+      <equation>c3h4 + oh [=] c2h3 + ch2o</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.000000E+09</A>
+           <b>0.0</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c3h4:1.0 oh:1</reactants>
+      <products>ch2o:1 c2h3:1.0</products>
+    </reaction>
+
+    <!-- reaction 0015    -->
+    <reaction reversible="yes" id="0015">
+      <equation>c3h4 + oh [=] c2h4 + hco</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.000000E+09</A>
+           <b>0.0</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c3h4:1.0 oh:1</reactants>
+      <products>c2h4:1.0 hco:1</products>
+    </reaction>
+
+    <!-- reaction 0016    -->
+    <reaction reversible="yes" id="0016">
+      <equation>ch3 + ho2 [=] ch3o + oh</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>5.000000E+10</A>
+           <b>0.0</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch3:1.0 ho2:1</reactants>
+      <products>ch3o:1.0 oh:1</products>
+    </reaction>
+
+    <!-- reaction 0017    -->
+    <reaction reversible="yes" id="0017">
+      <equation>ch3 + oh [=] ch2 + h2o</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>7.500000E+03</A>
+           <b>2.0</b>
+           <E units="cal/mol">5000.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch3:1.0 oh:1</reactants>
+      <products>ch2:1.0 h2o:1</products>
+    </reaction>
+
+    <!-- reaction 0018    -->
+    <reaction reversible="yes" id="0018">
+      <equation>ch2 + oh [=] ch2o + h</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>2.500000E+10</A>
+           <b>0.0</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch2:1.0 oh:1</reactants>
+      <products>ch2o:1.0 h:1</products>
+    </reaction>
+
+    <!-- reaction 0019    -->
+    <reaction reversible="yes" id="0019">
+      <equation>ch2 + o2 [=] hco + oh</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>4.300000E+07</A>
+           <b>0.0</b>
+           <E units="cal/mol">-500.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch2:1.0 o2:1</reactants>
+      <products>hco:1.0 oh:1</products>
+    </reaction>
+
+    <!-- reaction 0020    -->
+    <reaction reversible="yes" id="0020">
+      <equation>ch2 + o2 [=] co2 + h2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>6.900000E+08</A>
+           <b>0.0</b>
+           <E units="cal/mol">500.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch2:1.0 o2:1</reactants>
+      <products>h2:1 co2:1.0</products>
+    </reaction>
+
+    <!-- reaction 0021    -->
+    <reaction reversible="yes" id="0021">
+      <equation>ch2 + o2 [=] co + h2o</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>2.000000E+07</A>
+           <b>0.0</b>
+           <E units="cal/mol">-1000.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch2:1.0 o2:1</reactants>
+      <products>h2o:1 co:1.0</products>
+    </reaction>
+
+    <!-- reaction 0022    -->
+    <reaction reversible="yes" id="0022">
+      <equation>ch2 + o2 [=] ch2o + o</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>5.000000E+10</A>
+           <b>0.0</b>
+           <E units="cal/mol">9000.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch2:1.0 o2:1</reactants>
+      <products>ch2o:1.0 o:1</products>
+    </reaction>
+
+    <!-- reaction 0023    -->
+    <reaction reversible="yes" id="0023">
+      <equation>ch2 + o2 [=] co2 + h + h</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.600000E+09</A>
+           <b>0.0</b>
+           <E units="cal/mol">1000.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch2:1.0 o2:1</reactants>
+      <products>h:2 co2:1.0</products>
+    </reaction>
+
+    <!-- reaction 0024    -->
+    <reaction reversible="yes" id="0024">
+      <equation>ch2 + o2 [=] co + oh + h</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>8.600000E+07</A>
+           <b>0.0</b>
+           <E units="cal/mol">-500.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch2:1.0 o2:1</reactants>
+      <products>h:1 co:1.0 oh:1</products>
+    </reaction>
+
+    <!-- reaction 0025    -->
+    <reaction reversible="yes" id="0025">
+      <equation>ch3o + co [=] ch3 + co2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.570000E+11</A>
+           <b>0.0</b>
+           <E units="cal/mol">11800.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch3o:1.0 co:1</reactants>
+      <products>ch3:1.0 co2:1</products>
+    </reaction>
+
+    <!-- reaction 0026    -->
+    <reaction reversible="yes" id="0026">
+      <equation>co + oh [=] co2 + h</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>8.987000E+04</A>
+           <b>1.38</b>
+           <E units="cal/mol">5232.877000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>co:1.0 oh:1</reactants>
+      <products>h:1 co2:1.0</products>
+    </reaction>
+
+    <!-- reaction 0027    -->
+    <reaction reversible="yes" id="0027">
+      <equation>o + oh [=] o2 + h</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>4.000000E+11</A>
+           <b>-0.5</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>o:1.0 oh:1</reactants>
+      <products>h:1 o2:1.0</products>
+    </reaction>
+
+    <!-- reaction 0028    -->
+    <reaction reversible="yes" id="0028">
+      <equation>h + ho2 [=] oh + oh</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.700000E+11</A>
+           <b>0.0</b>
+           <E units="cal/mol">875.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>h:1.0 ho2:1</reactants>
+      <products>oh:2.0</products>
+    </reaction>
+
+    <!-- reaction 0029    -->
+    <reaction reversible="yes" id="0029">
+      <equation>oh + oh [=] o + h2o</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>6.000000E+05</A>
+           <b>1.3</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>oh:2.0</reactants>
+      <products>h2o:1 o:1.0</products>
+    </reaction>
+
+    <!-- reaction 0030    -->
+    <reaction reversible="yes" type="threeBody" id="0030">
+      <equation>h + o2 + M [=] ho2 + M</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>3.600000E+11</A>
+           <b>-0.72</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+        <efficiencies default="1.0">h2:3.3 h2o:21.0 co2:5.0 co:2.0</efficiencies>
+      </rateCoeff>
+      <reactants>h:1.0 o2:1</reactants>
+      <products>ho2:1.0</products>
+    </reaction>
+
+    <!-- reaction 0031    -->
+    <reaction reversible="yes" type="threeBody" id="0031">
+      <equation>h2o2 + M [=] oh + oh + M</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.000000E+13</A>
+           <b>0.0</b>
+           <E units="cal/mol">45500.000000</E>
+        </Arrhenius>
+        <efficiencies default="1.0">h2:3.3 h2o:21.0 co2:5.0 co:2.0</efficiencies>
+      </rateCoeff>
+      <reactants>h2o2:1.0</reactants>
+      <products>oh:2.0</products>
+    </reaction>
+
+    <!-- reaction 0032    -->
+    <reaction reversible="yes" id="0032">
+      <equation>h2 + oh [=] h2o + h</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.170000E+06</A>
+           <b>1.3</b>
+           <E units="cal/mol">3626.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>h2:1.0 oh:1</reactants>
+      <products>h:1 h2o:1.0</products>
+    </reaction>
+
+    <!-- reaction 0033    -->
+    <reaction reversible="yes" id="0033">
+      <equation>ho2 + ho2 [=] h2o2 + o2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>3.000000E+09</A>
+           <b>0.0</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ho2:2.0</reactants>
+      <products>h2o2:1.0 o2:1</products>
+    </reaction>
+
+    <!-- reaction 0034    -->
+    <reaction reversible="yes" id="0034">
+      <equation>ch2o + oh [=] hco + h2o</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>5.563000E+07</A>
+           <b>1.095</b>
+           <E units="cal/mol">-76.517000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch2o:1.0 oh:1</reactants>
+      <products>h2o:1 hco:1.0</products>
+    </reaction>
+
+    <!-- reaction 0035    -->
+    <reaction reversible="yes" id="0035">
+      <equation>ch2o + ho2 [=] hco + h2o2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>3.000000E+09</A>
+           <b>0.0</b>
+           <E units="cal/mol">8000.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch2o:1.0 ho2:1</reactants>
+      <products>hco:1.0 h2o2:1</products>
+    </reaction>
+
+    <!-- reaction 0036    -->
+    <reaction reversible="yes" id="0036">
+      <equation>hco + o2 [=] ho2 + co</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>3.300000E+10</A>
+           <b>-0.4</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>hco:1.0 o2:1</reactants>
+      <products>co:1 ho2:1.0</products>
+    </reaction>
+
+    <!-- reaction 0037    -->
+    <reaction reversible="yes" type="threeBody" id="0037">
+      <equation>hco + M [=] h + co + M</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.591000E+15</A>
+           <b>0.95</b>
+           <E units="cal/mol">56712.329000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>hco:1.0</reactants>
+      <products>h:1.0 co:1</products>
+    </reaction>
+
+    <!-- reaction 0038    -->
+    <reaction reversible="yes" id="0038">
+      <equation>ch3 + ch3o [=] ch4 + ch2o</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>4.300000E+11</A>
+           <b>0.0</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch3o:1 ch3:1.0</reactants>
+      <products>ch2o:1 ch4:1.0</products>
+    </reaction>
+
+    <!-- reaction 0039    -->
+    <reaction reversible="yes" id="0039">
+      <equation>c2h4 + oh [=] ch2o + ch3</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>6.000000E+10</A>
+           <b>0.0</b>
+           <E units="cal/mol">960.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c2h4:1.0 oh:1</reactants>
+      <products>ch2o:1.0 ch3:1</products>
+    </reaction>
+
+    <!-- reaction 0040    -->
+    <reaction reversible="yes" id="0040">
+      <equation>c2h4 + oh [=] c2h3 + h2o</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>8.020000E+10</A>
+           <b>0.0</b>
+           <E units="cal/mol">5955.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c2h4:1.0 oh:1</reactants>
+      <products>h2o:1 c2h3:1.0</products>
+    </reaction>
+
+    <!-- reaction 0041    -->
+    <reaction reversible="yes" id="0041">
+      <equation>c2h3 + o2 [=] ch2o + hco</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>4.000000E+09</A>
+           <b>0.0</b>
+           <E units="cal/mol">-250.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c2h3:1.0 o2:1</reactants>
+      <products>ch2o:1.0 hco:1</products>
+    </reaction>
+
+    <!-- reaction 0042    -->
+    <reaction reversible="yes" id="0042">
+      <equation>c2h3 + hco [=] c2h4 + co</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>6.034000E+10</A>
+           <b>0.0</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c2h3:1.0 hco:1</reactants>
+      <products>c2h4:1.0 co:1</products>
+    </reaction>
+
+    <!-- reaction 0043    -->
+    <reaction reversible="yes" id="0043">
+      <equation>c2h5 + o2 [=] c2h4 + ho2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>2.000000E+07</A>
+           <b>0.0</b>
+           <E units="cal/mol">-2200.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c2h5:1.0 o2:1</reactants>
+      <products>c2h4:1.0 ho2:1</products>
+    </reaction>
+
+    <!-- reaction 0044    -->
+    <reaction reversible="yes" id="0044">
+      <equation>ch4 + o2 [=] ch3 + ho2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>7.900000E+10</A>
+           <b>0.0</b>
+           <E units="cal/mol">56000.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch4:1.0 o2:1</reactants>
+      <products>ch3:1.0 ho2:1</products>
+    </reaction>
+
+    <!-- reaction 0045    -->
+    <reaction reversible="yes" id="0045">
+      <equation>oh + ho2 [=] h2o + o2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>7.500000E+09</A>
+           <b>0.0</b>
+           <E units="cal/mol">0.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ho2:1 oh:1.0</reactants>
+      <products>h2o:1.0 o2:1</products>
+    </reaction>
+
+    <!-- reaction 0046    -->
+    <reaction reversible="yes" id="0046">
+      <equation>ch3 + o2 [=] ch2o + oh</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>3.800000E+08</A>
+           <b>0.0</b>
+           <E units="cal/mol">9000.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch3:1.0 o2:1</reactants>
+      <products>ch2o:1.0 oh:1</products>
+    </reaction>
+
+    <!-- reaction 0047    -->
+    <reaction reversible="yes" id="0047">
+      <equation>ch4 + h [=] ch3 + h2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>6.600000E+05</A>
+           <b>1.6</b>
+           <E units="cal/mol">10840.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>h:1 ch4:1.0</reactants>
+      <products>h2:1 ch3:1.0</products>
+    </reaction>
+
+    <!-- reaction 0048    -->
+    <reaction reversible="yes" id="0048">
+      <equation>ch4 + oh [=] ch3 + h2o</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.600000E+03</A>
+           <b>2.1</b>
+           <E units="cal/mol">2460.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch4:1.0 oh:1</reactants>
+      <products>h2o:1 ch3:1.0</products>
+    </reaction>
+
+    <!-- reaction 0049    -->
+    <reaction reversible="yes" id="0049">
+      <equation>ch4 + o [=] ch3 + oh</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>1.020000E+06</A>
+           <b>1.5</b>
+           <E units="cal/mol">8604.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch4:1.0 o:1</reactants>
+      <products>ch3:1.0 oh:1</products>
+    </reaction>
+
+    <!-- reaction 0050    -->
+    <reaction reversible="yes" id="0050">
+      <equation>ch4 + ho2 [=] ch3 + h2o2</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>9.000000E+08</A>
+           <b>0.0</b>
+           <E units="cal/mol">18700.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ho2:1 ch4:1.0</reactants>
+      <products>ch3:1.0 h2o2:1</products>
+    </reaction>
+
+    <!-- reaction 0051    -->
+    <reaction reversible="yes" id="0051">
+      <equation>ch4 + ch2 [=] ch3 + ch3</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>4.000000E+09</A>
+           <b>0.0</b>
+           <E units="cal/mol">-570.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>ch2:1 ch4:1.0</reactants>
+      <products>ch3:2.0</products>
+    </reaction>
+
+    <!-- reaction 0052    -->
+    <reaction reversible="yes" id="0052">
+      <equation>c3h6 [=] c2h3 + ch3</equation>
+      <rateCoeff>
+        <Arrhenius>
+           <A>3.150000E+15</A>
+           <b>0.0</b>
+           <E units="cal/mol">85500.000000</E>
+        </Arrhenius>
+      </rateCoeff>
+      <reactants>c3h6:1.0</reactants>
+      <products>ch3:1 c2h3:1.0</products>
+    </reaction>
+  </reactionData>
+</ctml>
