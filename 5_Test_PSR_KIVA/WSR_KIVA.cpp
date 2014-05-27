@@ -66,19 +66,18 @@ std::cout << fuel_mdot << std::endl;
     // take single steps to 6 s, writing the results to a CSV file
     // for later plotting.
     double tnow = 0.0;
-    double tres;
-    int k;
+//    double tres;
+//    int k;
 
-std::cout << "milestone" << std::endl;
+
 	sim.advance(tfinal);//Avanza internamente y bota respuesta
-	tnow = tfinal; //Como ya avanzó, el tiempo final es el mismo tnow
-        tres = combustor.mass()/v.massFlowRate();
+//	tnow = tfinal; //Como ya avanzó, el tiempo final es el mismo tnow
+//        tres = combustor.mass()/v.massFlowRate();
 
        ThermoPhase& c = combustor.contents();
 
        c.getMassFractions(Y);
-
-
+	std::cout << "milestone" << std::endl;
 //    salida = composition;
 
 //Salidas:
@@ -117,7 +116,7 @@ int wrapper_c_()
 	//FIXME: -Inicializar el gas en otro lado
 	//       -Ver si el gas cambia para sólo usar uno para todos los reactores
 	//	 -usar una ct_nsp para manejar aparte el nsp de kiva
-	IdealGasMix gas("Mech_KIVA_Cantera.cti","gas");
+	IdealGasMix gas("gri30.xml");
 	int k,nsp=gas.nSpecies();
 	//end FIXME
 	salida = new double[nsp];
@@ -128,12 +127,27 @@ int wrapper_c_()
 	gas1=ct.Solution("gri30.cti")
 	gas1.species_index('AR')
 	*/
+/*
+If you leave:
+        ins[1]=5.892793593225408e-02;//CellVolume[m3]
+You can stress test everything and it works 
+But if if you use:
+        ins[1]=5.892793593225408e-13;//CellVolume[m3]
+Everything breaks and then "CanteraError thrown by CVodesIntegrator:
+ CVodes error encountered. Error code: -3"
+*/
 
-	ins[0]=1900.0;//temperatura [k];
+//The values i need to test are not commented
+	ins[0]=1.900e3;//temperatura [k];
+                //tested from 1.900e2 to  4.0 e3
 	ins[1]=5.892793593225408e-13;//CellVolume[m3];
-	ins[2]=2026500.00000003;//CellPressure[Pa]; 2 026 500
+                //ok from 5.892793593225408e10 to 5.892793593225408e-07
+                //fails from 5.892793593225408e-08 and smaller
+	ins[2]=2.02650000000003e06;//CellPressure[Pa]; 
+                //tested from 2.02650000000003e-6 to  2.02650000000003e16
 	ins[3]=1.2991316826994651e-05;//tfinal[s];
 	ins[4]=5.6761327713201428e-07;//fuel_mdot[kg/s];
+                //tested from 5.6761327713201428e-20 to 5.6761327713201428e10
 
 	for (k = 0; k < nsp; k++) {
             salida[k]= 0.0;
@@ -142,6 +156,7 @@ int wrapper_c_()
 	salida[3]=0.22006;//O2
 	salida[47]=0.72477;//N2
         runexample(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
+	std::cout << "milestone2" << std::endl;
 //runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
 // Unit test for the interface comunication
    	std::ofstream f("datos_cpp.csv",std::ios_base::app);
@@ -153,7 +168,7 @@ int wrapper_c_()
         f << std::endl;
 	f.close();
 // END Unit test for the interface comunication
-	
+
         return 0;
     }
     // handle exceptions thrown by Cantera
