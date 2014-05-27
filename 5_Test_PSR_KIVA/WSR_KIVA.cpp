@@ -10,7 +10,7 @@ using namespace Cantera;
 void runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
 {
 	//TODO: Cambiar el nombre del mecanismo por uno estático.
-	IdealGasMix gas("Mech_KIVA_Cantera.cti");
+	IdealGasMix gas("gri30.xml");
     //IdealGasMix gas("gri30.cti", "gri30");//Da lo mismo que la línea anterior
 //FIXME
     //Averiguar el tipo gas para pasarlo a la función
@@ -122,7 +122,7 @@ int wrapper_c_()
 	gas1.species_index('AR')
 	*/
 
-	ins[0]=1500.0;//temperatura [k];
+	ins[0]=1900.0;//temperatura [k];
 	ins[1]=5.892793593225408e-13;//CellVolume[m3];
 	ins[2]=2026500.00000003;//CellPressure[Pa]; 2 026 500
 	ins[3]=1.2991316826994651e-05;//tfinal[s];
@@ -131,9 +131,9 @@ int wrapper_c_()
 	for (k = 0; k < nsp; k++) {
             salida[k]= 0.0;
         }
-	salida[0]=0.063;//C7H16
-	salida[1]=0.218;//O2
-	salida[2]=0.71899999999999997;//N2
+	salida[13]=0.05517;//CH4
+	salida[3]=0.22006;//O2
+	salida[47]=0.72477;//N2
         runexample(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
 
 // Unit test for the interface comunication
