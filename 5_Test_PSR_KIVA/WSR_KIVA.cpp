@@ -9,35 +9,42 @@ using namespace Cantera;
 
 void runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
 {
+std::cout << temperatura << std::endl;
+std::cout << CellVolume << std::endl;
+std::cout << CellPressure << std::endl;
+std::cout << tfinal << std::endl;
+std::cout << fuel_mdot << std::endl;
+
 	//TODO: Cambiar el nombre del mecanismo por uno estático.
-	IdealGasMix gas("gri30.xml");
+	IdealGasMix gasIn("gri30.xml");
+	IdealGasMix gasComb("gri30.xml");
     //IdealGasMix gas("gri30.cti", "gri30");//Da lo mismo que la línea anterior
 //FIXME
     //Averiguar el tipo gas para pasarlo a la función
-    int nsp = gas.nSpecies();
+    int nsp = gasIn.nSpecies();
 //end FIXME
     //double composition(nsp)//
 
     //create a reservoir for the fuel inlet, and set to cell's composition.
     Reservoir fuel_in;
-    gas.setState_TPY(temperatura,CellPressure, Y);
-    fuel_in.insert(gas);
-    double fuel_mw = gas.meanMolecularWeight();
+    gasIn.setState_TPY(temperatura,CellPressure, Y);
+    fuel_in.insert(gasIn);
+    double fuel_mw = gasIn.meanMolecularWeight();
 
 
     // create the combustor, and fill it in initially with N2
 
     //gas.setState_TPX(300.0, OneAtm, "N2:1.0");//Interesante resultado, el reactor tarda en sacar el nitrógeno OJO KIVA
-    gas.setState_TPY(temperatura, CellPressure, Y);
+    gasComb.setState_TPY(temperatura, CellPressure, Y);
     IdealGasReactor combustor;
-    combustor.insert(gas);
+    combustor.insert(gasComb);
     combustor.setInitialVolume(CellVolume);
 
 
     // create a reservoir for the exhaust. The initial composition
     // doesn't matter.
     Reservoir exhaust;
-    exhaust.insert(gas);
+    exhaust.insert(gasComb);
 
     // create and install the mass flow controllers. Controllers
     // m1 and m2 provide constant mass flow rates, and m3 provides
@@ -62,7 +69,7 @@ void runexample(double temperatura,double CellVolume,double CellPressure,double 
     double tres;
     int k;
 
-
+std::cout << "milestone" << std::endl;
 	sim.advance(tfinal);//Avanza internamente y bota respuesta
 	tnow = tfinal; //Como ya avanzó, el tiempo final es el mismo tnow
         tres = combustor.mass()/v.massFlowRate();
@@ -135,7 +142,7 @@ int wrapper_c_()
 	salida[3]=0.22006;//O2
 	salida[47]=0.72477;//N2
         runexample(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
-
+//runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
 // Unit test for the interface comunication
    	std::ofstream f("datos_cpp.csv",std::ios_base::app);
 	f.setf(std::ios_base::scientific);
