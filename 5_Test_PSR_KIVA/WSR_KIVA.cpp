@@ -56,12 +56,13 @@ std::cout << fuel_mdot << std::endl;
     // put a valve on the exhaust line to regulate the pressure
     Valve v;
     v.install(combustor, exhaust);
-    double Kv = 1.0;
+    double Kv = 1.0e-07;
     v.setParameters(1, &Kv);
 
     // the simulation only contains one reactor
     ReactorNet sim;
     sim.addReactor(&combustor);
+    sim.setTolerances(1e-20,1.0e-9);
 
     // take single steps to 6 s, writing the results to a CSV file
     // for later plotting.
@@ -75,9 +76,10 @@ std::cout << fuel_mdot << std::endl;
 //        tres = combustor.mass()/v.massFlowRate();
 
        ThermoPhase& c = combustor.contents();
-
        c.getMassFractions(Y);
 	std::cout << "milestone" << std::endl;
+        std::cout << combustor.temperature() << std::endl;
+
 //    salida = composition;
 
 //Salidas:
@@ -152,7 +154,7 @@ Everything breaks and then "CanteraError thrown by CVodesIntegrator:
 	for (k = 0; k < nsp; k++) {
             salida[k]= 0.0;
         }
-	salida[13]=0.05517;//CH4
+	salida[13]=0.05185;//CH4
 	salida[3]=0.22006;//O2
 	salida[47]=0.72477;//N2
         runexample(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
