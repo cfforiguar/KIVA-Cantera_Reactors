@@ -15,10 +15,9 @@ std::cout << CellPressure << std::endl;
 std::cout << tfinal << std::endl;
 std::cout << fuel_mdot << std::endl;
 
-	//TODO: Cambiar el nombre del mecanismo por uno estático.
-	IdealGasMix gasIn("gri30.xml");
-	IdealGasMix gasComb("gri30.xml");
-    //IdealGasMix gas("gri30.cti", "gri30");//Da lo mismo que la línea anterior
+    IdealGasMix gasIn("Mech_KIVA_Cantera.cti","gas");
+    IdealGasMix gasComb("Mech_KIVA_Cantera.cti","gas");
+
 //FIXME
     //Averiguar el tipo gas para pasarlo a la función
     int nsp = gasIn.nSpecies();
@@ -46,7 +45,8 @@ std::cout << fuel_mdot << std::endl;
     Reservoir exhaust;
     exhaust.insert(gasComb);
 
-    // create and install the mass flow controllers. Controllers
+  
+  // create and install the mass flow controllers. Controllers
     // m1 and m2 provide constant mass flow rates, and m3 provides
     // a short Gaussian pulse only to ignite the mixture
     MassFlowController m1;
@@ -56,13 +56,13 @@ std::cout << fuel_mdot << std::endl;
     // put a valve on the exhaust line to regulate the pressure
     Valve v;
     v.install(combustor, exhaust);
-    double Kv = 1.0e-07;
+    double Kv = 0.0;
     v.setParameters(1, &Kv);
 
     // the simulation only contains one reactor
     ReactorNet sim;
     sim.addReactor(&combustor);
-    sim.setTolerances(1e-20,1.0e-9);
+    sim.setTolerances(1e-40,1.0e-9);
 
     // take single steps to 6 s, writing the results to a CSV file
     // for later plotting.
@@ -118,7 +118,7 @@ int wrapper_c_()
 	//FIXME: -Inicializar el gas en otro lado
 	//       -Ver si el gas cambia para sólo usar uno para todos los reactores
 	//	 -usar una ct_nsp para manejar aparte el nsp de kiva
-	IdealGasMix gas("gri30.xml");
+    IdealGasMix gas("Mech_KIVA_Cantera.cti","gas");
 	int k,nsp=gas.nSpecies();
 	//end FIXME
 	salida = new double[nsp];
@@ -140,23 +140,23 @@ Everything breaks and then "CanteraError thrown by CVodesIntegrator:
 */
 
 //The values i need to test are not commented
-	ins[0]=1.900e3;//temperatura [k];
+	ins[0]=797.19180707280918;//temperatura [k];
                 //tested from 1.900e2 to  4.0 e3
-	ins[1]=5.892793593225408e-13;//CellVolume[m3];
+	ins[1]=6.2635104999482856e-13;//CellVolume[m3];
                 //ok from 5.892793593225408e10 to 5.892793593225408e-07
                 //fails from 5.892793593225408e-08 and smaller
-	ins[2]=2.02650000000003e06;//CellPressure[Pa]; 
+	ins[2]=2952763.2293912154;//CellPressure[Pa]; 
                 //tested from 2.02650000000003e-6 to  2.02650000000003e16
-	ins[3]=1.2991316826994651e-05;//tfinal[s];
-	ins[4]=5.6761327713201428e-07;//fuel_mdot[kg/s];
+	ins[3]=3.9076705530412464e-06;//tfinal[s];
+	ins[4]=2.0600368693814045e-06;//fuel_mdot[kg/s];
                 //tested from 5.6761327713201428e-20 to 5.6761327713201428e10
 
 	for (k = 0; k < nsp; k++) {
             salida[k]= 0.0;
         }
-	salida[13]=0.05185;//CH4
-	salida[3]=0.22006;//O2
-	salida[47]=0.72477;//N2
+	salida[0]=2.4343383649779241e-18;//c7h16
+	salida[1]=0.2320000000000001;//O2
+	salida[2]=0.7679999999999999;//N2
         runexample(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
 	std::cout << "milestone2" << std::endl;
 //runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
