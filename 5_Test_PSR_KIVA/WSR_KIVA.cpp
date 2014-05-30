@@ -56,13 +56,13 @@ std::cout << fuel_mdot << std::endl;
     // put a valve on the exhaust line to regulate the pressure
     Valve v;
     v.install(combustor, exhaust);
-    double Kv = 0.0;
+    double Kv = 1.0e-0;
     v.setParameters(1, &Kv);
 
     // the simulation only contains one reactor
     ReactorNet sim;
     sim.addReactor(&combustor);
-    sim.setTolerances(1e-40,1.0e-9);
+    sim.setTolerances(1e-50,1.0e-9);
 
     // take single steps to 6 s, writing the results to a CSV file
     // for later plotting.
@@ -79,6 +79,7 @@ std::cout << fuel_mdot << std::endl;
        c.getMassFractions(Y);
 	std::cout << "milestone" << std::endl;
         std::cout << combustor.temperature() << std::endl;
+        std::cout << combustor.pressure() << std::endl;
 
 //    salida = composition;
 

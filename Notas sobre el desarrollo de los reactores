@@ -1,0 +1,57 @@
+Diagnóstico de los errores en el reactor
+  -Los resultados no son acordes con los de Chemkin (pero se parecen)
+  -Chemkin muestra que en el WSR hay pérdida de masa en el reactor, véase 
+   la imagen "acumulación masa WSR.png"
+  -Los papers nunca hablan de una masa de entrada y otra de salida 
+    -Revisar Turns y comparaar con las tesis
+    -Mantilla habla de una velocidad e entrada basada en la velocidad del
+     flujo, pero el problema es que para el método numérico el flujo está 
+     parado en ese instante
+    -Cantera incorpora un objeto válvula que deja salir flujo para tener
+     la presión constante. Lo cual es un despropósito para el modelo por
+     que:
+      -Se cae Cantera a menos que uno haga la constante K de la válvula   
+       muy pequeña. Eso equivale a decirle que por la válvula no sale 
+       nada a menos que la diferencia de presión entre el reactor y el   
+       exterior sea inmensa. La válvula gobierna el flujo másico por:
+       dot(m)= K*Delta(p).
+       http://www.cantera.org/docs/doxygen/html/flowControllers_8h_source.html
+      -Además como se le define al reactor una K que funcione siempre?
+        -¿Que intente con una y con otra?
+        -¿Que haya una función que deje la presión constante como en 
+         chemkin ó usar una función que deje el flujo másico constante?
+        -¿Usar un massflowcontroller para mantener el flujo másico cte?
+    -Para Chemkin no existe el objeto válvula de Cantera
+    -Para Chemkin la cantidad de masa dentro del reactor WSR varía. De
+     este modo se introducen aberraciones en las ecuaciones de continuidad
+     que podrían hacer caer a KIVA 
+    -Lograr que el flujo másico es constante se podría hacer de 2 formas:
+      -Hacer que el flujo del objeto válvula sea igual al de salida
+        -Cambio forzado en la presión
+        -Hace necesario llenar de nuevo el reactor con algo que no se  
+         sabe qué es:
+          -Mezcla fresca
+            -Introduzco energía artficialmente (energías de formación)
+          -Recircular la mezcla de la válvula a la entrada
+            -Si el volumen es constante, la presión es variable y la
+             mezcla recircula ¿No se está forzando un reactor de volumen  
+             constante? 
+              -Consistente con Golovitchev.
+              -Cantera solamente soluciona si K es pequeño->dot(m)=0
+      -Poner un massflowcontroller a la salida -> Es lo más sencillo
+OJO: El reactor de Cantera por alguna extraña razón está reaccionando a temperaturas y presiones muy bajas véase changeset:19 (ce3eb4e20c04) en KIVA 
+
+CASO RARO para KIVA changeset 21 (35b93cef9759):
+Para las condiciones: 
+{780.01976566582402, 4.073069760955634e-11, 2710136.9228358548, 1.4290448509694117e-05, 3.4361407312040838e-05, 0, 0, 0, 0, 0}
+y composiciones:
+{0, 0.23200000000000034, 0.76799999999999957, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+Se tiene como resultado:
+{0, 0.2320000000000004, 0.76799999999999979, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+
+Lo que genera ratas de reacción ficticias que a su vez conlleva a que haa cambios bruscos de energía y de masa. Además de violaciones a las leyes de consevación de energía y masa. Dichos cambios de energía se deben a que de la nada se está perdiendo-ganando O2 y N2 con sus respectivas energías de formación.
+
+Se sugiere fuertemente hacer uso de fuertes controles al reactor para que conserve la masa ó de alguna forma blindar a KIVA de estos cambios.
+
+
+Hipótesis 
