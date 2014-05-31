@@ -2,6 +2,7 @@
 #include "cantera/zerodim.h"
 #include "cantera/IdealGasMix.h"
 #include "cantera/zeroD/IdealGasReactor.h"
+#include "cantera/equilibrium.h"
 
 #include <fstream>
 
@@ -20,12 +21,17 @@ std::cout << fuel_mdot << std::endl;
 
 //FIXME
     //Averiguar el tipo gas para pasarlo a la función
-    int nsp = gasIn.nSpecies();
+    int nsp = gasIn.nSpecies(), k;
     double MwI=0.0,MwF=0.0;//unit test:Comprobación de la masa inicial y final
     
 //end FIXME
-    //double composition(nsp)//
-
+    double *compositionI,*PrintIt;
+    compositionI=new double[nsp];
+    PrintIt=new double[nsp];
+    for (k = 0; k < nsp; k++) {
+        compositionI[k] = Y[k];
+    }
+    
     //create a reservoir for the fuel inlet, and set to cell's composition.
     Reservoir fuel_in;
     gasIn.setState_TPY(temperatura,CellPressure, Y);
@@ -75,7 +81,7 @@ std::cout << fuel_mdot << std::endl;
 	sim.advance(tfinal);//Avanza internamente y bota respuesta
 //	tnow = tfinal; //Como ya avanzó, el tiempo final es el mismo tnow
 //        tres = combustor.mass()/v.massFlowRate();
-
+	
        ThermoPhase& c = combustor.contents();
        c.getMassFractions(Y);   
         MwF=c.density()*CellVolume;
@@ -85,7 +91,29 @@ std::cout << fuel_mdot << std::endl;
 	std::cout << "Masa inicial:" << MwI << std::endl;
 	std::cout << "Masa final:" << MwF << std::endl;
 	std::cout << "Masa final-Masa inicial:" << MwF-MwI << std::endl;
-	
+	std::cout << "Mfrac final-Mfrac inicial:"  << std::endl;
+        for (k = 0; k < nsp; k++) {
+            std::cout << Y[k]-compositionI[k] <<", ";
+        }
+        std::cout << std::endl;
+        gasIn.setState_TPY(temperatura, CellPressure, compositionI);
+        std::cout << "Ratas de prod. instantánea:"  << std::endl;
+        gasIn.getNetProductionRates(PrintIt);
+        for (k = 0; k < nsp; k++) {
+            std::cout << PrintIt[k] <<", ";
+        }
+        std::cout << std::endl;
+        std::cout << "Mfrac en equilibrio:"  << std::endl;
+        gasIn.setState_TPY(temperatura, CellPressure, compositionI);
+        equilibrate(gasIn, "TP");
+        gasIn.getMassFractions(PrintIt);
+        for (k = 0; k < nsp; k++) {
+            std::cout << PrintIt[k] <<", ";
+        }
+        std::cout << std::endl;
+	std::cout << "Energía total inicial:" << MwI << std::endl;
+	std::cout << "Energía final:" << MwF << std::endl;
+	std::cout << "Energía final-Energía inicial:" << MwF-MwI << std::endl;
 
 //    salida = composition;
 
@@ -126,6 +154,7 @@ int wrapper_c_()
 	//       -Ver si el gas cambia para sólo usar uno para todos los reactores
 	//	 -usar una ct_nsp para manejar aparte el nsp de kiva
     IdealGasMix gas("Mech_KIVA_Cantera.cti","gas");
+
 	int k,nsp=gas.nSpecies();
 	//end FIXME
 	salida = new double[nsp];
@@ -147,25 +176,29 @@ Everything breaks and then "CanteraError thrown by CVodesIntegrator:
 */
 
 //The values i need to test are not commented
-	ins[0]=797.19180707280918;//temperatura [k];
+	ins[0]=780.01399880757299;//temperatura [k];
                 //tested from 1.900e2 to  4.0 e3
-	ins[1]=6.2635104999482856e-13;//CellVolume[m3];
+	ins[1]=6.4023376457990285e-11;//CellVolume[m3];
                 //ok from 5.892793593225408e10 to 5.892793593225408e-07
                 //fails from 5.892793593225408e-08 and smaller
-	ins[2]=2952763.2293912154;//CellPressure[Pa]; 
+	ins[2]=2716977.3405759293;//CellPressure[Pa]; 
                 //tested from 2.02650000000003e-6 to  2.02650000000003e16
-	ins[3]=3.9076705530412464e-06;//tfinal[s];
-	ins[4]=2.0600368693814045e-06;//fuel_mdot[kg/s];
+	ins[3]=1.4290448509694117e-05;//tfinal[s];
+	ins[4]=0;//fuel_mdot[kg/s];
                 //tested from 5.6761327713201428e-20 to 5.6761327713201428e10
 
 	for (k = 0; k < nsp; k++) {
             salida[k]= 0.0;
         }
-	salida[0]=2.4343383649779241e-18;//c7h16
-	salida[1]=0.2320000000000001;//O2
-	salida[2]=0.7679999999999999;//N2
+	salida[0]=0.0;//2.4343383649779241e-18;//c7h16
+	salida[1]=0.23200000000000012;//O2
+	salida[2]=0.76799999999999979;//N2
+/*	
+        gas.setState_TPY(ins[0], ins[2], salida);
+        gas.getNetProductionRates(PrintIt);
+*/
         runexample(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
-	std::cout << "milestone2" << std::endl;
+	std::cout << "milestone2" << std::endl;	
 //runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
 // Unit test for the interface comunication
    	std::ofstream f("datos_cpp.csv",std::ios_base::app);
