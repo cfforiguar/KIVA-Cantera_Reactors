@@ -21,6 +21,8 @@ std::cout << fuel_mdot << std::endl;
 //FIXME
     //Averiguar el tipo gas para pasarlo a la función
     int nsp = gasIn.nSpecies();
+    double MwI=0.0,MwF=0.0;//unit test:Comprobación de la masa inicial y final
+    
 //end FIXME
     //double composition(nsp)//
 
@@ -38,7 +40,7 @@ std::cout << fuel_mdot << std::endl;
     IdealGasReactor combustor;
     combustor.insert(gasComb);
     combustor.setInitialVolume(CellVolume);
-
+    MwI=combustor.density()*CellVolume;
 
     // create a reservoir for the exhaust. The initial composition
     // doesn't matter.
@@ -53,11 +55,10 @@ std::cout << fuel_mdot << std::endl;
     m1.install(fuel_in, combustor);
     m1.setMassFlowRate(fuel_mdot);
 
-    // put a valve on the exhaust line to regulate the pressure
-    Valve v;
-    v.install(combustor, exhaust);
-    double Kv = 1.0e-0;
-    v.setParameters(1, &Kv);
+    // put a  mass flow controller on the exhaust line to regulate the mass
+    MassFlowController m2;
+    m2.install(combustor, exhaust);
+    m2.setMassFlowRate(fuel_mdot);
 
     // the simulation only contains one reactor
     ReactorNet sim;
@@ -68,7 +69,7 @@ std::cout << fuel_mdot << std::endl;
     // for later plotting.
     double tnow = 0.0;
 //    double tres;
-//    int k;
+
 
 
 	sim.advance(tfinal);//Avanza internamente y bota respuesta
@@ -76,10 +77,15 @@ std::cout << fuel_mdot << std::endl;
 //        tres = combustor.mass()/v.massFlowRate();
 
        ThermoPhase& c = combustor.contents();
-       c.getMassFractions(Y);
+       c.getMassFractions(Y);   
+        MwF=c.density()*CellVolume;
 	std::cout << "milestone" << std::endl;
-        std::cout << combustor.temperature() << std::endl;
-        std::cout << combustor.pressure() << std::endl;
+	std::cout << "Temperatura Final:" << combustor.temperature() << std::endl;
+	std::cout << "Presión Final:" << combustor.pressure() << std::endl;
+	std::cout << "Masa inicial:" << MwI << std::endl;
+	std::cout << "Masa final:" << MwF << std::endl;
+	std::cout << "Masa final-Masa inicial:" << MwF-MwI << std::endl;
+	
 
 //    salida = composition;
 
