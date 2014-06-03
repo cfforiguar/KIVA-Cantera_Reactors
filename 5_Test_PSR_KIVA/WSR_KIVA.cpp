@@ -10,11 +10,11 @@ using namespace Cantera;
 
 void runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
 {
-std::cout << temperatura << std::endl;
-std::cout << CellVolume << std::endl;
-std::cout << CellPressure << std::endl;
-std::cout << tfinal << std::endl;
-std::cout << fuel_mdot << std::endl;
+std::cout << "Temperatura I "<< temperatura << std::endl;
+std::cout << "Volumen I "<< CellVolume << std::endl;
+std::cout << "Presión I "<< CellPressure << std::endl;
+std::cout << "Tiempo "<< tfinal << std::endl;
+std::cout << "Flujo másico "<< fuel_mdot << std::endl;
 
     IdealGasMix gasIn("Mech_KIVA_Cantera.cti","gas");
     IdealGasMix gasComb("Mech_KIVA_Cantera.cti","gas");
@@ -22,12 +22,13 @@ std::cout << fuel_mdot << std::endl;
 //FIXME
     //Averiguar el tipo gas para pasarlo a la función
     int nsp = gasIn.nSpecies(), k;
-    double MwI=0.0,MwF=0.0;//unit test:Comprobación de la masa inicial y final
+    double MwI=0.0,MwF=0.0,EI=0.0,EF=0.0,EKIVA=0.0;//unit test:Comprobación de la masa inicial y final
     
 //end FIXME
-    double *compositionI,*PrintIt;
+    double *compositionI,*PrintIt,*nonDimSSEnthalpy_RT,Htf_i;
     compositionI=new double[nsp];
     PrintIt=new double[nsp];
+    nonDimSSEnthalpy_RT=new double[nsp];
     for (k = 0; k < nsp; k++) {
         compositionI[k] = Y[k];
     }
@@ -95,14 +96,42 @@ std::cout << fuel_mdot << std::endl;
         for (k = 0; k < nsp; k++) {
             std::cout << Y[k]-compositionI[k] <<", ";
         }
-        std::cout << std::endl;
+        std::cout<< std::endl;
+	//P*V+u*MasaInic:
+	EI=CellPressure*CellVolume+gasIn.intEnergy_mass()*MwI+gasIn.cv_mass()*MwI*temperatura;
+	std::cout << "Energía total inicial:" << EI << std::endl;
+	//P*V+u*MasaFin:
+	EF=combustor.pressure()*CellVolume+c.intEnergy_mass()*MwF+c.cv_mass()*MwF*combustor.temperature();
+	std::cout << "Energía final:" << EF << std::endl;
+	std::cout << "Energía final-Energía inicial:" << EF-EI 
+	<< std::endl;
+//https://groups.yahoo.com/neo/groups/cantera/conversations/topics/1428	
+        std::cout << "rhoI ct:" << gasIn.density() << std::endl;
+        std::cout << "rhoF ct:" << c.density() << std::endl;
+        std::cout << "Delta sie ct:" 
+        << c.intEnergy_mass()-gasIn.intEnergy_mass() << 
+        " Delta sie KIVA:" << 
+        (c.intEnergy_mass()-gasIn.intEnergy_mass())*(1.0e7/1.0e3) 
+        << std::endl;
+//        std::cout << "spd ct:" << c.intEnergy_mass() << "spd KIVA:" << << std::endl;
+        gasIn.setState_TPY(298.0, OneAtm, compositionI);	
+	gasIn.getEnthalpy_RT_ref(nonDimSSEnthalpy_RT);
+	for (k = 0; k < nsp; k++) {
+	    //[R]=J( K)−1(k mol)−1,(k mol)−1= (1000 mol)−1
+       	    Htf_i= nonDimSSEnthalpy_RT[k]*GasConstant*298.15;
+       	    //std::cout << Htf_i << std::endl;
+       	    std::cout << (Y[k]-compositionI[k])/tfinal << std::endl;
+            EKIVA=EKIVA-((Y[k]-compositionI[k])/tfinal)*(Htf_i/
+	    c.molecularWeight(k));
+        }
+	std::cout << "sie según KIVA:" << EKIVA << std::endl;
         gasIn.setState_TPY(temperatura, CellPressure, compositionI);
         std::cout << "Ratas de prod. instantánea:"  << std::endl;
         gasIn.getNetProductionRates(PrintIt);
         for (k = 0; k < nsp; k++) {
             std::cout << PrintIt[k] <<", ";
         }
-        std::cout << std::endl;
+        std::cout << std::endl;       
         std::cout << "Mfrac en equilibrio:"  << std::endl;
         gasIn.setState_TPY(temperatura, CellPressure, compositionI);
         equilibrate(gasIn, "TP");
@@ -111,10 +140,6 @@ std::cout << fuel_mdot << std::endl;
             std::cout << PrintIt[k] <<", ";
         }
         std::cout << std::endl;
-	std::cout << "Energía total inicial:" << MwI << std::endl;
-	std::cout << "Energía final:" << MwF << std::endl;
-	std::cout << "Energía final-Energía inicial:" << MwF-MwI << std::endl;
-
 //    salida = composition;
 
 //Salidas:
@@ -190,14 +215,22 @@ Everything breaks and then "CanteraError thrown by CVodesIntegrator:
 	for (k = 0; k < nsp; k++) {
             salida[k]= 0.0;
         }
-	salida[0]=0.0;//2.4343383649779241e-18;//c7h16
+	salida[0]=0.2;//2.4343383649779241e-18;//c7h16
 	salida[1]=0.23200000000000012;//O2
 	salida[2]=0.76799999999999979;//N2
-/*	
+	
+	double *PrintIt;
+	PrintIt = new double[nsp];
         gas.setState_TPY(ins[0], ins[2], salida);
         gas.getNetProductionRates(PrintIt);
-*/
-        runexample(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
+//	for (k = 0; k < nsp; k++) {
+//            if (PrintIt[k]!=0.0)
+//            {
+              runexample(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
+//              break;
+//            };
+//        }
+
 	std::cout << "milestone2" << std::endl;	
 //runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
 // Unit test for the interface comunication

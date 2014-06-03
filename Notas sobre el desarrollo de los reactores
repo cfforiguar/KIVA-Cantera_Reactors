@@ -48,8 +48,12 @@ Diagnóstico de los errores en el reactor
               -Cantera solamente soluciona si K es pequeño->dot(m)=0
       -Poner un massflowcontroller a la salida -> Es lo más sencillo
 
+-facsec: Este valor escala la energía añadida en función del tamaño del sector que se está simulando. Se multiplica el cambio de energía por facsec. El cual está definido en rinput.f en las líneas 246-248.
+
  -OJO: El reactor de Cantera por alguna extraña razón está reaccionando a    
   temperaturas y presiones muy bajas véase changeset:19 (ce3eb4e20c04) 
+
+
 
  -CASO RARO para KIVA changeset 21 (35b93cef9759):
   Para las condiciones: 
@@ -70,6 +74,15 @@ Diagnóstico de los errores en el reactor
 
    -Se sugiere fuertemente hacer uso de fuertes controles al reactor para que 
    conserve la masa ó de alguna forma blindar a KIVA de estos cambios.
+
+-FIXME: OJO OJO BUG: me estoy bajando el combustioble con fracciones másicas negativas al 
+hacer spdarray = 0 y no lo estoy reponiendo más adelante
+
+-TODO: Hallar energía total en el reactor antes y después de solucionar
+-TODO: Hallar cambio en la energía interna en la reacción
+-TODO: Usar el mecanismo original de Patel deshabilitando NO y N en KIVA 
+ y datahk
+-TODO: Descartar los problemas de la inyección usando fase gaseosa
 
 
 Hipótesis 
