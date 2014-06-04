@@ -75,14 +75,43 @@ Diagnóstico de los errores en el reactor
    -Se sugiere fuertemente hacer uso de fuertes controles al reactor para que 
    conserve la masa ó de alguna forma blindar a KIVA de estos cambios.
 
+-Paraview: Se debe usar una versión reciente de Paraview y al abrir el arcchivo intentar con las 2 opciones que muestra para abrir el archivo.La compatibilidad de paraview con GMV es pobre.
+
 -FIXME: OJO OJO BUG: me estoy bajando el combustioble con fracciones másicas negativas al 
 hacer spdarray = 0 y no lo estoy reponiendo más adelante
 
 -TODO: Hallar energía total en el reactor antes y después de solucionar
 -TODO: Hallar cambio en la energía interna en la reacción
+
+-TODO: Descartar los problemas de la inyección usando fase gaseosa
+
+-Pruebas con chemkin con el reactor en estado estacionario para la masa: Mantilla lo usa como argumento para hacer energy:off.
+  -La energía no se reinvierte en la reacción si no en la difusión de las especies y otros procesos
+    -Esto evita que existan reactores con alta liberación de calor en las pruebas HCCI
+  -El no calcular cambios en temperatura para el reactor es coherente con el esquema numérico de KIVA. Pues KIVA ajusta las temperaturas al final
+    -El reactor viene a ser un predictor de las densidades
+      -Esto se evidencia por que cada vez que Cantera termina una iteración grande las densidades iniciales de los reactores no son las finales del paso anterior
+  -
+
 -TODO: Usar el mecanismo original de Patel deshabilitando NO y N en KIVA 
  y datahk
--TODO: Descartar los problemas de la inyección usando fase gaseosa
+
+
+-Lista de problemas:
+  -Un reactor reacciona muy rápido
+
+-Lista de parámetros sospechosos
+ -NO y N agregados al mecanismo -> Especies negativas en Cantera
+ -Poner ecuación de energía ->Liberación excesiva de energía, concentración de especies
+ -Reactor
+   -¿flujo másico de entrada?
+   -¿tipo de reactor?
+ -Calculo de la densidad ->cambios bruscos en la densidad
+ 
+-p,t,vol, =cte en cada paso de tiempo en cada reactor
+-Lista de posibes soluciones?
+  -
+  -Seguir los reactores problemáticos -> ¿cómo hago para cogerlos cuando KIVA los coja?
 
 
 Hipótesis 

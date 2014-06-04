@@ -10,19 +10,21 @@ using namespace Cantera;
 
 void runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
 {
+/*
 std::cout << "Temperatura I "<< temperatura << std::endl;
 std::cout << "Volumen I "<< CellVolume << std::endl;
 std::cout << "Presión I "<< CellPressure << std::endl;
 std::cout << "Tiempo "<< tfinal << std::endl;
 std::cout << "Flujo másico "<< fuel_mdot << std::endl;
-
+*/
     IdealGasMix gasIn("Mech_KIVA_Cantera.cti","gas");
     IdealGasMix gasComb("Mech_KIVA_Cantera.cti","gas");
 
 //FIXME
     //Averiguar el tipo gas para pasarlo a la función
     int nsp = gasIn.nSpecies(), k;
-    double MwI=0.0,MwF=0.0,EI=0.0,EF=0.0,EKIVA=0.0;//unit test:Comprobación de la masa inicial y final
+    double MwI=0.0,MwF=0.0,EI=0.0,EF=0.0,EKIVA=0.0,
+    VwF=0.0,VwI=0.0,PwF=0.0,PwI=0.0,TwF=0.0,TwI=0.0;//unit test:Comprobación de la masa inicial y final
     
 //end FIXME
     double *compositionI,*PrintIt,*nonDimSSEnthalpy_RT,Htf_i;
@@ -47,7 +49,10 @@ std::cout << "Flujo másico "<< fuel_mdot << std::endl;
     IdealGasReactor combustor;
     combustor.insert(gasComb);
     combustor.setInitialVolume(CellVolume);
-    MwI=combustor.density()*CellVolume;
+    VwI=combustor.volume();
+    PwI=combustor.pressure();
+    TwI=combustor.temperature();
+    MwI=combustor.density()*VwI;
 
     // create a reservoir for the exhaust. The initial composition
     // doesn't matter.
@@ -85,13 +90,20 @@ std::cout << "Flujo másico "<< fuel_mdot << std::endl;
 	
        ThermoPhase& c = combustor.contents();
        c.getMassFractions(Y);   
-        MwF=c.density()*CellVolume;
+        
+        VwF=combustor.volume();
+        PwF=combustor.pressure();
+        TwF=combustor.temperature();
+        MwF=c.density()*VwF;
 	std::cout << "milestone" << std::endl;
-	std::cout << "Temperatura Final:" << combustor.temperature() << std::endl;
-	std::cout << "Presión Final:" << combustor.pressure() << std::endl;
-	std::cout << "Masa inicial:" << MwI << std::endl;
-	std::cout << "Masa final:" << MwF << std::endl;
+//	std::cout << "Temperatura Final:" << combustor.temperature() << std::endl;
+//	std::cout << "Presión Final:" << combustor.pressure() << std::endl;
+//	std::cout << "Masa inicial:" << MwI << std::endl;
+//	std::cout << "Masa final:" << MwF << std::endl;
 	std::cout << "Masa final-Masa inicial:" << MwF-MwI << std::endl;
+	std::cout << "P final-P inicial:" << PwF-PwI << std::endl;
+	std::cout << "Vol final-Vol inicial:" << VwF-VwI << std::endl;
+	std::cout << "T final-T inicial:" << TwF-TwI << std::endl;
 	std::cout << "Mfrac final-Mfrac inicial:"  << std::endl;
         for (k = 0; k < nsp; k++) {
             std::cout << Y[k]-compositionI[k] <<", ";
@@ -108,6 +120,8 @@ std::cout << "Flujo másico "<< fuel_mdot << std::endl;
 //https://groups.yahoo.com/neo/groups/cantera/conversations/topics/1428	
         std::cout << "rhoI ct:" << gasIn.density() << std::endl;
         std::cout << "rhoF ct:" << c.density() << std::endl;
+        std::cout << "Delta rho KIVA:" 
+        << (c.density()-gasIn.density())*1.0e-3 << std::endl;        
         std::cout << "Delta sie ct:" 
         << c.intEnergy_mass()-gasIn.intEnergy_mass() << 
         " Delta sie KIVA:" << 
@@ -120,11 +134,11 @@ std::cout << "Flujo másico "<< fuel_mdot << std::endl;
 	    //[R]=J( K)−1(k mol)−1,(k mol)−1= (1000 mol)−1
        	    Htf_i= nonDimSSEnthalpy_RT[k]*GasConstant*298.15;
        	    //std::cout << Htf_i << std::endl;
-       	    std::cout << (Y[k]-compositionI[k])/tfinal << std::endl;
+       	    //std::cout << (Y[k]-compositionI[k])/tfinal << std::endl;
             EKIVA=EKIVA-((Y[k]-compositionI[k])/tfinal)*(Htf_i/
 	    c.molecularWeight(k));
         }
-	std::cout << "sie según KIVA:" << EKIVA << std::endl;
+	std::cout << "sie según KIVA:" << EKIVA*(1.0e7/(1.0e3)) << std::endl;
         gasIn.setState_TPY(temperatura, CellPressure, compositionI);
         std::cout << "Ratas de prod. instantánea:"  << std::endl;
         gasIn.getNetProductionRates(PrintIt);
@@ -201,23 +215,23 @@ Everything breaks and then "CanteraError thrown by CVodesIntegrator:
 */
 
 //The values i need to test are not commented
-	ins[0]=780.01399880757299;//temperatura [k];
+	ins[0]=777.76999999999998;//temperatura [k];
                 //tested from 1.900e2 to  4.0 e3
-	ins[1]=6.4023376457990285e-11;//CellVolume[m3];
+	ins[1]=5.892793593225408e-13;//CellVolume[m3];
                 //ok from 5.892793593225408e10 to 5.892793593225408e-07
                 //fails from 5.892793593225408e-08 and smaller
-	ins[2]=2716977.3405759293;//CellPressure[Pa]; 
+	ins[2]=2680000.0000000009;//CellPressure[Pa]; 
                 //tested from 2.02650000000003e-6 to  2.02650000000003e16
-	ins[3]=1.4290448509694117e-05;//tfinal[s];
+	ins[3]=1.2991316826994651e-05;//tfinal[s];
 	ins[4]=0;//fuel_mdot[kg/s];
                 //tested from 5.6761327713201428e-20 to 5.6761327713201428e10
 
 	for (k = 0; k < nsp; k++) {
             salida[k]= 0.0;
         }
-	salida[0]=0.2;//2.4343383649779241e-18;//c7h16
-	salida[1]=0.23200000000000012;//O2
-	salida[2]=0.76799999999999979;//N2
+	salida[0]=0.0;//2.4343383649779241e-18;//c7h16
+	salida[1]=0.218;//O2
+	salida[2]=0.71900000000000008;//N2
 	
 	double *PrintIt;
 	PrintIt = new double[nsp];
