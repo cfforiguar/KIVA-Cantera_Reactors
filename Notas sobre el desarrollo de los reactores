@@ -82,8 +82,8 @@ hacer spdarray = 0 y no lo estoy reponiendo más adelante
 
 -TODO: Hallar energía total en el reactor antes y después de solucionar
 -TODO: Hallar cambio en la energía interna en la reacción
-
--TODO: Descartar los problemas de la inyección usando fase gaseosa
+-TODO: Probar un reactor problemático usando el mecanismo on y sin NO y N
+-TODO: Recuperar las masas negativas inyectadas en KIVA -->Enviar mail a hkmoffat en sandia
 
 -Pruebas con chemkin con el reactor en estado estacionario para la masa: Mantilla lo usa como argumento para hacer energy:off.
   -La energía no se reinvierte en la reacción si no en la difusión de las especies y otros procesos
@@ -95,7 +95,7 @@ hacer spdarray = 0 y no lo estoy reponiendo más adelante
 
 -TODO: Usar el mecanismo original de Patel deshabilitando NO y N en KIVA 
  y datahk
-
+-TODO: Averiguar por qué demonios no se conserva la masa en KIVA
 
 -Lista de problemas:
   -Un reactor reacciona muy rápido
@@ -108,10 +108,30 @@ hacer spdarray = 0 y no lo estoy reponiendo más adelante
    -¿tipo de reactor?
  -Calculo de la densidad ->cambios bruscos en la densidad
  
--p,t,vol, =cte en cada paso de tiempo en cada reactor
+-TODO: Partir el delta de tiempo si las concentraciones son negativas
+-TODO: p,t,vol, =cte en cada paso de tiempo en cada reactor
+-TODO: Multiplicar por T el SIE
 -Lista de posibes soluciones?
   -
-  -Seguir los reactores problemáticos -> ¿cómo hago para cogerlos cuando KIVA los coja?
+  -Seguir los reactores problemáticos -> ¿cómo hago para cogerlos cuando KIVA los coja?--->
+
+
+-chem.f
+ -Hacer un solo switch para todos los unit tests
+    -Avisar sólo del evento que disparó el error
+ -Tener un blacklist de reactores que va a imprimir en el tiempo
+ -Tener conciencia del ciclo en el que se está
+ -Tener la posibilidad de detectar reactores problemáticos e inprimirlos
+ -Ver cómo funciona el coso que avisa el paso de tiempo en KIVA en medio de la 
+  reacción para rearrancar todo de nuevo.
+-Hacer un unit test en fortran
+ -Leer los reactores problemáticos impresos desde KIVA
+ -
+-cppwrapper
+  -Hacer un solo switch para todos los unit tests
+    -Avisar sólo del evento que disparó el error
+  -Recibir el ciclo y el # de reactor de Cantera
+  -Imprimir un archivo con los errores: Ciclo, # de reactor y error de Cantera
 
 
 Hipótesis 

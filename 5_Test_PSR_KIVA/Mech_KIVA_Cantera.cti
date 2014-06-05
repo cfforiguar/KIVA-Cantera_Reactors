@@ -3,12 +3,11 @@ units(length='cm', time='s', quantity='mol', act_energy='cal/mol')
 ideal_gas(name='gas',
           elements="H C O N",
           species="""nc7h16   o2       n2       co2      h2o      
-                     h        h2       o        n        oh       
-                     co       no       h2o2     ho2      ch3o     
-                     ch2o     hco      ch2      ch3      ch4      
-                     c2h3     c2h4     c2h5     c3h4     c3h5     
-                     c3h6     c3h7     c7h15-2  c7h15o2  c7ket12  
-                     c5h11co  """,
+                     co       h2       oh       h2o2     ho2      
+                     h        o        ch3o     ch2o     hco      
+                     ch2      ch3      ch4      c2h3     c2h4     
+                     c2h5     c3h4     c3h5     c3h6     c3h7     
+                     c7h15-2  c7h15o2  c7ket12  c5h11co""",
           reactions='all',
           initial_state=state(temperature=300.0, pressure=OneAtm))
 
@@ -16,40 +15,6 @@ ideal_gas(name='gas',
 # Species data
 #-------------------------------------------------------------------------------
 
-#Parte agregada del GRIMECH-3.0
-species(name='no',
-        atoms='O:1 N:1',
-        thermo=(NASA([200.00, 1000.00],
-                     [ 4.21847630E+00, -4.63897600E-03,  1.10410220E-05,
-                      -9.33613540E-09,  2.80357700E-12,  9.84462300E+03,
-                       2.28084640E+00]),
-                NASA([1000.00, 6000.00],
-                     [ 3.26060560E+00,  1.19110430E-03, -4.29170480E-07,
-                       6.94576690E-11, -4.03360990E-15,  9.92097460E+03,
-                       6.36930270E+00])),
-        transport=gas_transport(geom='linear',
-                                diam=3.621,
-                                well_depth=97.53,
-                                polar=1.76,
-                                rot_relax=4.0),
-        note='RUS78')
-
-
-species(name='n',
-        atoms='N:1',
-        thermo=(NASA([200.00, 1000.00],
-                     [ 2.50000000E+00,  0.00000000E+00,  0.00000000E+00,
-                       0.00000000E+00,  0.00000000E+00,  5.61046370E+04,
-                       4.19390870E+00]),
-                NASA([1000.00, 6000.00],
-                     [ 2.41594290E+00,  1.74890650E-04, -1.19023690E-07,
-                       3.02262450E-11, -2.03609820E-15,  5.61337730E+04,
-                       4.64960960E+00])),
-        transport=gas_transport(geom='atom',
-                                diam=3.298,
-                                well_depth=71.4),
-        note='L6/88')
-#
 species(name='nc7h16',
         atoms='H:16 C:7',
         thermo=(NASA([300.00, 1391.00],

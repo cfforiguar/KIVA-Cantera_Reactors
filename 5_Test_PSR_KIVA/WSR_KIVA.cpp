@@ -31,9 +31,11 @@ std::cout << "Flujo másico "<< fuel_mdot << std::endl;
     compositionI=new double[nsp];
     PrintIt=new double[nsp];
     nonDimSSEnthalpy_RT=new double[nsp];
+    /*
     for (k = 0; k < nsp; k++) {
         compositionI[k] = Y[k];
     }
+    */
     
     //create a reservoir for the fuel inlet, and set to cell's composition.
     Reservoir fuel_in;
@@ -49,11 +51,15 @@ std::cout << "Flujo másico "<< fuel_mdot << std::endl;
     IdealGasReactor combustor;
     combustor.insert(gasComb);
     combustor.setInitialVolume(CellVolume);
+    combustor.setEnergy(1);//0 = Energy off
+//Unit test
+    ThermoPhase& cI = combustor.contents();
+    cI.getMassFractions(compositionI);
     VwI=combustor.volume();
     PwI=combustor.pressure();
     TwI=combustor.temperature();
     MwI=combustor.density()*VwI;
-
+//END Unit test
     // create a reservoir for the exhaust. The initial composition
     // doesn't matter.
     Reservoir exhaust;
@@ -215,7 +221,7 @@ Everything breaks and then "CanteraError thrown by CVodesIntegrator:
 */
 
 //The values i need to test are not commented
-	ins[0]=777.76999999999998;//temperatura [k];
+	ins[0]=1477.76999999999998;//temperatura [k];
                 //tested from 1.900e2 to  4.0 e3
 	ins[1]=5.892793593225408e-13;//CellVolume[m3];
                 //ok from 5.892793593225408e10 to 5.892793593225408e-07
@@ -223,15 +229,15 @@ Everything breaks and then "CanteraError thrown by CVodesIntegrator:
 	ins[2]=2680000.0000000009;//CellPressure[Pa]; 
                 //tested from 2.02650000000003e-6 to  2.02650000000003e16
 	ins[3]=1.2991316826994651e-05;//tfinal[s];
-	ins[4]=0;//fuel_mdot[kg/s];
+	ins[4]=0.0;//fuel_mdot[kg/s];
                 //tested from 5.6761327713201428e-20 to 5.6761327713201428e10
 
 	for (k = 0; k < nsp; k++) {
             salida[k]= 0.0;
         }
-	salida[0]=0.0;//2.4343383649779241e-18;//c7h16
-	salida[1]=0.218;//O2
-	salida[2]=0.71900000000000008;//N2
+	salida[0]=0.06;//2.4343383649779241e-18;//c7h16
+	salida[1]=0.21;//O2
+	salida[2]=0.79;//N2
 	
 	double *PrintIt;
 	PrintIt = new double[nsp];
