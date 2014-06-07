@@ -235,21 +235,53 @@ Everything breaks and then "CanteraError thrown by CVodesIntegrator:
 	for (k = 0; k < nsp; k++) {
             salida[k]= 0.0;
         }
-	salida[0]=0.06;//2.4343383649779241e-18;//c7h16
+	salida[0]=0.16;//2.4343383649779241e-18;//c7h16
 	salida[1]=0.21;//O2
 	salida[2]=0.79;//N2
 	
-	double *PrintIt;
+	double *PrintIt,*ct_Mw,meanMw=0.0,nMol,fTMol=0.0,*X,*mol;
 	PrintIt = new double[nsp];
+	ct_Mw = new double[nsp];
+	X = new double[nsp];
+	mol= new double[nsp];
+//	salida = new double[nsp];
         gas.setState_TPY(ins[0], ins[2], salida);
-        gas.getNetProductionRates(PrintIt);
-//	for (k = 0; k < nsp; k++) {
-//            if (PrintIt[k]!=0.0)
-//            {
-              runexample(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
-//              break;
-//            };
-//        }
+        gas.getNetProductionRates(PrintIt);//Species net production rates [kmol/m^3/s]. 
+        std::cout << "Ratas de prod. neta instantánea:"  << std::endl;
+        for (k = 0; k < nsp; k++) {
+            std::cout << PrintIt[k] <<", ";
+        }
+        std::cout << std::endl;
+        gas.getMolecularWeights(ct_Mw);//Output array of molecular weights (kg/kmol) 
+        std::cout << "Masas molares: "  << std::endl;
+        for (k = 0; k < nsp; k++) {
+            std::cout << ct_Mw[k] <<", ";
+        }
+        std::cout << std::endl;
+        gas.getMoleFractions(X);
+        std::cout << "Fracción molar inicial: "  << std::endl;
+        for (k = 0; k < nsp; k++) {
+            std::cout << X[k] <<", ";
+        }
+        std::cout << std::endl;
+        nMol=ins[1]*ins[2]/(GasConstant*ins[0]);//[kmol]=PV/(RT), [GasConstant]=J/kmo-K
+        std::cout << "Moles iniciales: "<< nMol  << std::endl;
+        std::cout << "Moles nuevas: "  << std::endl;        
+	for (k = 0; k < nsp; k++) {
+	   mol[k]=X[k]*nMol+ins[3]*PrintIt[k]*ins[1];//y-y0=(x-x0)*m, [mol]=kmol
+           std::cout << mol[k] << ", ";
+	   fTMol=fTMol+mol[k];//kmol
+           meanMw=meanMw+ct_Mw[k]*X[k];//[meanMw]=kg/kmol
+        }
+        std::cout << std::endl;
+        std::cout << "Total de moles nuevas: "<< fTMol  << std::endl;
+        std::cout << "Masa molar media : "<< meanMw  << std::endl;
+        std::cout << "Fracciónes másicas nuevas: "<< std::endl;
+	for (k = 0; k < nsp; k++) {
+	   X[k]=mol[k]/fTMol;
+	   salida[k]=X[k]*ct_Mw[k]/meanMw;
+           std::cout << salida[k] <<", ";
+        }
 
 	std::cout << "milestone2" << std::endl;	
 //runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
