@@ -7,10 +7,12 @@ script para preprocesar manualmente las cosas de cantera a KIVA
 python3
 import cantera as ct
 import numpy as np
-ct.add_directory('/home/carlos/Maestria/Materias/Tesis/Mecanismos')
-gas1 = ct.Solution('mechPatel_N-NO.cti')
+#ct.add_directory('/home/carlos/Maestria/Materias/Tesis/Mecanismos')
+gas1 = ct.Solution('Mech_KIVA_Cantera.cti')
+gas1.TP=298.15,ct.one_atm
 #http://homepages.cae.wisc.edu/~hessel/manualsAndEpilogues/kiva4itape5inputs/htform.html
-htf=gas1.standard_enthalpies_RT*ct.gas_constant*298.15
+hAdim_R=gas1.standard_enthalpies_RT*ct.gas_constant
+htf=hAdim_R*298.15
 #Convierto de J/kmol a kcal/mol
 htf=htf*0.000239005736/1e3
 #Ahora se imprime en el formato de KIVA ej:
@@ -57,7 +59,26 @@ for value in cont:
 #read(37,"(a8)") ispecies
 #read(37,*) (ek(i,j+nspl),i=1,51)
 #read(37,*) tcriti(j+nspl),pcriti(j+nspl),acentric(j+nspl)
-htf=gas1.standard_enthalpies_RT*ct.gas_constant*298.15
-#Convierto de J/kmol a kcal/mol
-htf=htf*0.000239005736/1e3
+T100=np.arange(0,5100,100,dtype=np.int16)
+T100[0]=1#Cantera only accepts T>0
+tCriti=np.zeros((nsp), dtype=np.float64)
+pCriti=np.zeros((nsp), dtype=np.float64)
+acentric=np.zeros((nsp), dtype=np.float64)
+impCont=np.arange(0,51,1,dtype=np.int16)
+Enth=np.ones((nsp,51), dtype=np.float64)
+f = open('datahkNew', 'w')
+for value in cont:
+  for i in impCont:
+    gas1.TP=T100[i],ct.one_atm
+    Enth[:,i]=gas1.standard_enthalpies_RT*ct.gas_constant*T100[i]#in J/Kmol
+
+for value in cont:
+  f.write(''.join(gas1.species_names[value].lower().rjust(8)))
+  f.write('\n')
+  f.write(''.join(['{0:12.6E},'.format(Enth[value,i]*0.000239005736/1e3) for i in impCont]))#0.000239005736/1e3 J/kmol a kcal/mol
+  f.write('\n')
+  f.write(''.join('{0:12.6E},{1:12.6E},{2:12.6E}'.format(tCriti[value],pCriti[value],acentric[value])))
+  f.write('\n')
+
+f.close()
 
