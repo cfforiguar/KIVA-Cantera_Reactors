@@ -79,37 +79,37 @@ void runexample(double temperatura,double CellVolume,double CellPressure,double 
 
     IdealGasMix gasIn("Mech_KIVA_Cantera.xml","gas");
     IdealGasMix gasComb("Mech_KIVA_Cantera.xml","gas");
-//end FIXME
-    //double composition(nsp)//
-
     //create a reservoir for the fuel inlet, and set to cell's composition.
     Reservoir fuel_in;
+    IdealGasReactor combustor;// create the combustor
+    combustor.setEnergy(1);//0 = Energy eqn of the combustor off 
+    Reservoir exhaust;//Create a reservoir for the exhaust
+    // create and install the mass flow controllers. Controllers
+    // m1 and m2 provide constant mass flow rates
+    MassFlowController m1; //Create a mass flow controller
+    MassFlowController m2; //Create a mass flow controller
+
+
     gasIn.setState_TPY(temperatura,CellPressure, Y);
     fuel_in.insert(gasIn);
     double fuel_mw = gasIn.meanMolecularWeight();
 
 
-    // create the combustor, and fill it in initially with N2
+    //Fill the combustor it in initially with N2
 
     gasComb.setState_TPY(temperatura, CellPressure, Y);
-    IdealGasReactor combustor;
     combustor.insert(gasComb);
     combustor.setInitialVolume(CellVolume);
-    combustor.setEnergy(1);//0 = Energy off
     // create a reservoir for the exhaust. The initial composition
     // doesn't matter.
-    Reservoir exhaust;
     exhaust.insert(gasComb);
 
   
-  // create and install the mass flow controllers. Controllers
-    // m1 and m2 provide constant mass flow rates
-    MassFlowController m1;
+  //Install the mass flow controllers. Controllers
     m1.install(fuel_in, combustor);
     m1.setMassFlowRate(fuel_mdot);
 
-    // put a  mass flow controller on the exhaust line to regulate the mass
-    MassFlowController m2;
+    // put the mass flow controller m2 on the exhaust line to regulate the mass
     m2.install(combustor, exhaust);
     m2.setMassFlowRate(fuel_mdot);
 
@@ -118,7 +118,7 @@ void runexample(double temperatura,double CellVolume,double CellPressure,double 
     sim.addReactor(&combustor);
     sim.setTolerances(1e-50,1.0e-9);
 
-	sim.advance(tfinal);//Avanza internamente y bota respuesta
+  	sim.advance(tfinal);//Avanza internamente y bota respuesta
 //	tnow = tfinal; //Como ya avanzó, el tiempo final es el mismo tnow
 //        tres = combustor.mass()/v.massFlowRate();
 
