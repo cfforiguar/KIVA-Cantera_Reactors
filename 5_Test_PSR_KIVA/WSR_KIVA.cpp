@@ -171,6 +171,12 @@ std::cout << "Flujo másico "<< fuel_mdot << std::endl;
     //Delta Energía: (SI)//¿Entalpía ó energía interna?->depende del reactor
 
     //H_Inic(gas)-H_Fin(gas)
+    
+    delete [] compositionI;
+    delete [] PrintIt;
+    delete [] nonDimSSEnthalpy_RT;
+
+    
 }
 
 /*
@@ -286,6 +292,7 @@ Everything breaks and then "CanteraError thrown by CVodesIntegrator:
 	std::cout << "milestone2" << std::endl;	
 //runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
 // Unit test for the interface comunication
+runexample(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
    	std::ofstream f("datos_cpp.csv",std::ios_base::app);
 	f.setf(std::ios_base::scientific);
 	f.precision(20);
@@ -295,8 +302,13 @@ Everything breaks and then "CanteraError thrown by CVodesIntegrator:
         f << std::endl;
 	f.close();
 // END Unit test for the interface comunication
-
-        return 0;
+	delete [] PrintIt;
+	delete [] ct_Mw;
+	delete [] X;
+	delete [] mol;
+	delete [] salida;
+	delete [] ins;
+  return 0;
     }
     // handle exceptions thrown by Cantera
     catch (CanteraError& err) {
