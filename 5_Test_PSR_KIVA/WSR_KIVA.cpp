@@ -17,8 +17,8 @@ std::cout << "Presión I "<< CellPressure << std::endl;
 std::cout << "Tiempo "<< tfinal << std::endl;
 std::cout << "Flujo másico "<< fuel_mdot << std::endl;
 */
-    IdealGasMix gasIn("Mech_KIVA_Cantera.cti","gas");
-    IdealGasMix gasComb("Mech_KIVA_Cantera.cti","gas");
+    IdealGasMix gasIn("Mech_KIVA_Cantera.xml","gas");
+    IdealGasMix gasComb("Mech_KIVA_Cantera.xml","gas");
 
 //FIXME
     //Averiguar el tipo gas para pasarlo a la función
@@ -198,7 +198,7 @@ int wrapper_c_()
 	//FIXME: -Inicializar el gas en otro lado
 	//       -Ver si el gas cambia para sólo usar uno para todos los reactores
 	//	 -usar una ct_nsp para manejar aparte el nsp de kiva
-    IdealGasMix gas("Mech_KIVA_Cantera.cti","gas");
+    IdealGasMix gas("Mech_KIVA_Cantera.xml","gas");
 
 	int k,nsp=gas.nSpecies();
 	//end FIXME
