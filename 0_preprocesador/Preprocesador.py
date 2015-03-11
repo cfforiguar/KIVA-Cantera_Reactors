@@ -1,4 +1,4 @@
-script para preprocesar manualmente las cosas de cantera a KIVA
+#script para preprocesar manualmente las cosas de cantera a KIVA
 
 #Haría falta alguna forma para que modificara el mecanismo y que deje las 12 especies de KIVA en el orden que es---> que el usuario lo haga
 #Este script supone que el usuario ya organizó las 12 especies en el mecanismo

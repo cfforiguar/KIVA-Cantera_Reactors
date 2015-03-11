@@ -183,6 +183,7 @@ $25 = {0.50684186705358991, 0.11441268557157569, 0.37874544491807571, 1.83850844
 
 MIRAR LO DE LA INYECCIÓN PARA QUE DE  ALGO LÓGICO, POR QUE SE CAE Y PUEDE SER POR QUE ESTÁ CON UN PHI > 25 (HAY MÁS MASA DE COMBUSTIBLE QUE DE AIRE)
 
+OJO: rinput lee 12 especies por defecto en datahk, obviamente esto es un error ya que la especie #12 no existe (nsp = nEspCombustible+nEspecies). Por lo tanto la especie # 12 (ho2) se debe eliminar ya que nada que ver.
 
 Hipótesis 
 
