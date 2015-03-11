@@ -77,8 +77,8 @@ void UnitTests(){
 void runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
 {
 
-    IdealGasMix gasIn("Mech_KIVA_Cantera.cti","gas");
-    IdealGasMix gasComb("Mech_KIVA_Cantera.cti","gas");
+    IdealGasMix gasIn("Mech_KIVA_Cantera.xml","gas");
+    IdealGasMix gasComb("Mech_KIVA_Cantera.xml","gas");
 //end FIXME
     //double composition(nsp)//
 
@@ -151,7 +151,7 @@ ins[4]=0.0;
 	//FIXME: -Inicializar el gas en otro lado
 	//       -Ver si el gas cambia para sólo usar uno para todos los reactores
 	//	 -usar una ct_nsp para manejar aparte el nsp de kiva
-	IdealGasMix gas("Mech_KIVA_Cantera.cti","gas");
+	IdealGasMix gas("Mech_KIVA_Cantera.xml","gas");
 	int k,nsp=gas.nSpecies();
 	//end FIXME
 
@@ -201,7 +201,7 @@ ins[4]=0.0;
 }
 int main()
 {
-	IdealGasMix gas("Mech_KIVA_Cantera.cti","gas");
+	IdealGasMix gas("Mech_KIVA_Cantera.xml","gas");
 	double *ins, *salida;
 	int k;
 	static int nsp=gas.nSpecies();
