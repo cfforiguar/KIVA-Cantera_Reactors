@@ -73,13 +73,31 @@ void UnitTests(){
 */
 }
 
-
-void runexample(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y)
+class joinCVR:
+  public IdealGasPhase,
+  public GasKinetics
 {
-
-    IdealGasMix gasIn("Mech_KIVA_Cantera.xml","gas");
-    IdealGasMix gasComb("Mech_KIVA_Cantera.xml","gas");
-    //create a reservoir for the fuel inlet, and set to cell's composition.
+public:
+  IdealGasMix gasIn;
+  IdealGasMix gasComb;
+  int nsp;
+//  double temperatura;
+//  double CellVolume;
+//  double CellPressure;
+//  double tfinal;
+//  double fuel_mdot;
+//  double * Y;
+  joinCVR();
+  void InicGas();
+  void tester(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y);
+};
+joinCVR::joinCVR()
+    :gasComb("Mech_KIVA_Cantera.xml","gas")
+    ,gasIn("Mech_KIVA_Cantera.xml","gas")
+{
+  nsp=gasComb.nSpecies();
+}
+void joinCVR::tester(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y){
     Reservoir fuel_in;
     IdealGasReactor combustor;// create the combustor
     combustor.setEnergy(1);//0 = Energy eqn of the combustor off 
@@ -88,15 +106,8 @@ void runexample(double temperatura,double CellVolume,double CellPressure,double 
     // m1 and m2 provide constant mass flow rates
     MassFlowController m1; //Create a mass flow controller
     MassFlowController m2; //Create a mass flow controller
-
-
     gasIn.setState_TPY(temperatura,CellPressure, Y);
     fuel_in.insert(gasIn);
-    double fuel_mw = gasIn.meanMolecularWeight();
-
-
-    //Fill the combustor it in initially with N2
-
     gasComb.setState_TPY(temperatura, CellPressure, Y);
     combustor.insert(gasComb);
     combustor.setInitialVolume(CellVolume);
@@ -109,11 +120,13 @@ void runexample(double temperatura,double CellVolume,double CellPressure,double 
     m1.install(fuel_in, combustor);
     m1.setMassFlowRate(fuel_mdot);
 
-    // put the mass flow controller m2 on the exhaust line to regulate the mass
+   // put the mass flow controller m2 on the exhaust line to regulate the mass
     m2.install(combustor, exhaust);
     m2.setMassFlowRate(fuel_mdot);
+        // the simulation only contains one reactor
 
-    // the simulation only contains one reactor
+
+
     ReactorNet sim;
     sim.addReactor(&combustor);
     sim.setTolerances(1e-50,1.0e-9);
@@ -121,9 +134,8 @@ void runexample(double temperatura,double CellVolume,double CellPressure,double 
   	sim.advance(tfinal);//Avanza internamente y bota respuesta
 //	tnow = tfinal; //Como ya avanzó, el tiempo final es el mismo tnow
 //        tres = combustor.mass()/v.massFlowRate();
-
-       ThermoPhase& c = combustor.contents();
-       c.getMassFractions(Y);
+    ThermoPhase& c = combustor.contents();
+    c.getMassFractions(Y);
 //Salidas:
     //Las salidas se pasan a las unidades de KIVA en la interfase.
     //Densidades: Y->densidades(SI)
@@ -133,7 +145,6 @@ void runexample(double temperatura,double CellVolume,double CellPressure,double 
     //Delta Energía: (SI)//¿Entalpía ó energía interna?->depende del reactor
 
     //H_Inic(gas)-H_Fin(gas)
-
 }
 
 extern "C"
@@ -163,7 +174,7 @@ ins[4]=0.0;
 	*/
  
 
-	
+  joinCVR test;
 	double *PrintIt;
 	PrintIt = new double[nsp];
         gas.setState_TPY(ins[0], ins[2], salida);
@@ -171,13 +182,14 @@ ins[4]=0.0;
 	for (k = 0; k < nsp; k++) {
             if (PrintIt[k]!=0.0)
             {
-              runexample(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
+              test.tester(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
+//              test.tester(ins[0], ins[1], salida);
               break;
             };
         }
 /* 
 // Unit test for the interface comunication
-   	std::ofstream f("datos_cpp.csv",std::ios_base::app);
+  std::ofstream f("datos_cpp.csv",std::ios_base::app);
 	f.setf(std::ios_base::scientific);
 	f.precision(20);
         for (k = 0; k < nsp; k++) {
@@ -201,12 +213,11 @@ ins[4]=0.0;
 }
 int main()
 {
-	IdealGasMix gas("Mech_KIVA_Cantera.xml","gas");
+	joinCVR test;
 	double *ins, *salida;
 	int k;
-	static int nsp=gas.nSpecies();
+	static int nsp=test.nsp;
 	salida = new double[nsp];
-	
 	for (k = 0; k < nsp; k++) {
             salida[k]= 0.0;
         }
