@@ -75,11 +75,15 @@ void UnitTests(){
 
 class joinCVR:
   public IdealGasPhase,
-  public GasKinetics
+  public GasKinetics,
+  public Reactor
 {
 public:
   IdealGasMix gasIn;
   IdealGasMix gasComb;
+  IdealGasReactor combustor;// create the combustor
+  ReactorNet sim;
+  joinCVR();
   int nsp;
 //  double temperatura;
 //  double CellVolume;
@@ -87,55 +91,39 @@ public:
 //  double tfinal;
 //  double fuel_mdot;
 //  double * Y;
-  joinCVR();
-  void InicGas();
   void tester(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y);
+  void testerII(double CellVolume,double tfinal,double fuel_mdot, double * Y);
 };
 joinCVR::joinCVR()
     :gasComb("Mech_KIVA_Cantera.xml","gas")
     ,gasIn("Mech_KIVA_Cantera.xml","gas")
+    ,sim()
+    ,combustor()
 {
   nsp=gasComb.nSpecies();
 }
 void joinCVR::tester(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y){
-    Reservoir fuel_in;
-    IdealGasReactor combustor;// create the combustor
+//This is going to become the reactor network.Called once to set up the reactor network. 
+//sim.updateState(),  sim.setInitialTime (0.0) and sim.advance() will be called somewere else several times over
+  gasIn.setState_TPY(temperatura,CellPressure, Y);
+  gasComb.setState_TPY(temperatura, CellPressure, Y);
+  combustor.setInitialVolume(CellVolume);
+  testerII(CellVolume,tfinal,fuel_mdot,Y);
+
+  sim.addReactor(&combustor);
+  sim.setTolerances(1.0e-5,1.0e-9);
+  sim.setInitialTime (0.0);
+	sim.advance(tfinal);//Avanza internamente y bota respuesta  
+  ThermoPhase& c = combustor.contents();
+  c.getMassFractions(Y);
+
+}
+void joinCVR::testerII(double CellVolume,double tfinal,double fuel_mdot, double * Y){
+//This is going to become the reactor. Called once to set up the reactor.
+
     combustor.setEnergy(1);//0 = Energy eqn of the combustor off 
-    Reservoir exhaust;//Create a reservoir for the exhaust
-    // create and install the mass flow controllers. Controllers
-    // m1 and m2 provide constant mass flow rates
-    MassFlowController m1; //Create a mass flow controller
-    MassFlowController m2; //Create a mass flow controller
-    gasIn.setState_TPY(temperatura,CellPressure, Y);
-    fuel_in.insert(gasIn);
-    gasComb.setState_TPY(temperatura, CellPressure, Y);
     combustor.insert(gasComb);
-    combustor.setInitialVolume(CellVolume);
-    // create a reservoir for the exhaust. The initial composition
-    // doesn't matter.
-    exhaust.insert(gasComb);
 
-  
-  //Install the mass flow controllers. Controllers
-    m1.install(fuel_in, combustor);
-    m1.setMassFlowRate(fuel_mdot);
-
-   // put the mass flow controller m2 on the exhaust line to regulate the mass
-    m2.install(combustor, exhaust);
-    m2.setMassFlowRate(fuel_mdot);
-        // the simulation only contains one reactor
-
-
-
-    ReactorNet sim;
-    sim.addReactor(&combustor);
-    sim.setTolerances(1e-50,1.0e-9);
-
-  	sim.advance(tfinal);//Avanza internamente y bota respuesta
-//	tnow = tfinal; //Como ya avanzó, el tiempo final es el mismo tnow
-//        tres = combustor.mass()/v.massFlowRate();
-    ThermoPhase& c = combustor.contents();
-    c.getMassFractions(Y);
 //Salidas:
     //Las salidas se pasan a las unidades de KIVA en la interfase.
     //Densidades: Y->densidades(SI)
@@ -187,7 +175,7 @@ ins[4]=0.0;
               break;
             };
         }
-/* 
+
 // Unit test for the interface comunication
   std::ofstream f("datos_cpp.csv",std::ios_base::app);
 	f.setf(std::ios_base::scientific);
@@ -198,7 +186,7 @@ ins[4]=0.0;
         f << std::endl;
 	f.close();
 // END Unit test for the interface comunication
-*/	
+	
     delete [] PrintIt;
     return 0;
     }

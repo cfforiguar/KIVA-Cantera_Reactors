@@ -1,7 +1,7 @@
 include /home/carlos/.local/include/cantera/Cantera.mak
 
 CC=icc
-CXX=icpc -g -O0 
+CXX=icpc -g -traceback 
 RM=rm -f
 CCFLAGS=-g
 CPPFLAGS=$(CANTERA_INCLUDES)
@@ -14,7 +14,7 @@ OBJS=$(subst .cpp,.o,$(SRCS))
 all: WSR_KIVA
 
 combustor: $(OBJS)
-	$(CXX) $(LDFLAGS) -g -o WSR_KIVA $(OBJS) $(LDLIBS)
+	$(CXX) $(LDFLAGS) -o WSR_KIVA $(OBJS) $(LDLIBS)
 
 clean:
 	$(RM) $(OBJS)
