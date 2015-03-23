@@ -84,48 +84,37 @@ public:
   ReactorNet sim;
   joinCVR();
   int nsp;
-//  double temperatura;
-//  double CellVolume;
-//  double CellPressure;
-//  double tfinal;
-//  double fuel_mdot;
-//  double * Y;
-  void tester(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y);
-  void testerII(double CellVolume,double tfinal,double fuel_mdot, double * Y);
+  void SolveCVR(double temperatura,double CellVolume,double CellPressure,double tfinal, double * Y);
+  void SetReactor();
   void SetReactorNetwork();
 };
 joinCVR::joinCVR()
     :gasComb("Mech_KIVA_Cantera.xml","gas")
     ,sim()
     ,combustor()
+  //**Puedo inicializar el Reactor y el ReactorNetwork sin hacer gasComb.setState_TPY(...)
 {
   nsp=gasComb.nSpecies();
+  SetReactor();
+  SetReactorNetwork();
 }
-void joinCVR::SetReactorNetwork(){//New solution
-//sim.updateState(),  sim.setInitialTime (0.0) and sim.advance() will be called somewere else several times over
-
-//sim.updateState() is a low level function 
-  //**Cuando se modifica el gas luego de meter el Reactor al ReactorNetwork, Cantera no ve los cambios
-  //**Además puedo inicializar el Reactor y el ReactorNetwork sin hacer gasComb.setState_TPY(...)
+void joinCVR::SetReactorNetwork(){//Reactor Network set up
   sim.addReactor(&combustor);  
   sim.setTolerances(1.0e-5,1.0e-9);//Review this carefully. It may need tune up
 }
-void joinCVR::tester(double temperatura,double CellVolume,double CellPressure,double tfinal,double fuel_mdot, double * Y){//Reactor Network set up
-//This is going to become the reactor network.Called once to set up the reactor network. 
-  testerII(CellVolume,tfinal,fuel_mdot,Y);
-  SetReactorNetwork();
-  
+void joinCVR::SolveCVR(double temperatura,double CellVolume,double CellPressure,double tfinal, double * Y){//New solution
+//sim.updateState(),  could be called to further optimize the code. But it is a low lever function. It should be used with care. I need more experience for that
+
   gasComb.setState_TPY(temperatura, CellPressure, Y);
   combustor.setInitialVolume(CellVolume);
-  combustor.insert(gasComb);
+  combustor.insert(gasComb);//Dejar esto acá que si no, no refresca el gas
   sim.setInitialTime (0.0);
 	sim.advance(tfinal);//Avanza internamente y bota respuesta  
   ThermoPhase& c = combustor.contents();
   c.getMassFractions(Y);
 }
-void joinCVR::testerII(double CellVolume,double tfinal,double fuel_mdot, double * Y){//Reactor set up
-//This is going to become the reactor. Called once to set up the reactor.
-  combustor.setEnergy(1);//0 = Energy eqn of the combustor off 
+void joinCVR::SetReactor(){//Reactor set up. It's Called once to set up the reactor.
+  combustor.setEnergy(1);//0 = Energy eqn of the combustor is off 
 }
 
 extern "C"
@@ -154,7 +143,6 @@ ins[4]=0.0;
 	gas1.species_index('AR')
 	*/
  
-
   joinCVR test;
 	double *PrintIt;
 	PrintIt = new double[nsp];
@@ -163,8 +151,7 @@ ins[4]=0.0;
 	for (k = 0; k < nsp; k++) {
             if (PrintIt[k]!=0.0)
             {
-              test.tester(ins[0], ins[1], ins[2], ins[3],ins[4], salida);
-//              test.tester(ins[0], ins[1], salida);
+              test.SolveCVR(ins[0], ins[1], ins[2], ins[3], salida);
               break;
             };
         }
