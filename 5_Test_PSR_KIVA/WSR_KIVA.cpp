@@ -2,7 +2,7 @@
 #include "cantera/zerodim.h"
 #include "cantera/IdealGasMix.h"
 #include "cantera/zeroD/IdealGasReactor.h"
-
+#include <vector>
 #include <fstream>
 
 using namespace Cantera;
@@ -117,6 +117,42 @@ void joinCVR::SetReactor(){//Reactor set up. It's Called once to set up the reac
   combustor.setEnergy(1);//0 = Energy eqn of the combustor is off 
 }
 
+void Paralelizar(double temperatura,double CellVolume,double CellPressure,double tfinal, double * Y){
+//  std::vector<joinCVR> ReacVect;
+//  std::vector<joinCVR> ReacVect;
+//  for(int i = 1; i<10 ++i){
+//    ReacVect.push_back(joinCVR());
+//#pragma omp parallel
+{
+#pragma omp parallel for private(tfinal)
+	for (int i = 0; i <100; i++) {
+    printf("1\n");
+    printf("2\n");
+    joinCVR bicho;
+    static int nsp=bicho.nsp;
+    double *ins, *salida;
+   	salida = new double[nsp];
+	  for (int k = 0; k < nsp; k++) {
+      salida[k]= 0.0;
+    };
+	  salida[0]=0.16;//2.4343383649779241e-18;//c7h16
+	  salida[1]=0.21;//O2
+	  salida[2]=0.79;//N2
+    ins = new double[4];
+    //The values i need to test are not commented
+	  ins[0]=1477.76999999999998;//temperatura [k];
+  //                //tested from 1.900e2 to  4.0 e3
+	  ins[1]=5.892793593225408e-13;//CellVolume[m3];
+                  //ok from 5.892793593225408e10 to 5.892793593225408e-07
+  //                //fails from 5.892793593225408e-08 and smaller
+	  ins[2]=2680000.0000000009;//CellPressure[Pa]; 
+  //                //tested from 2.02650000000003e-6 to  2.02650000000003e16
+  	ins[3]=1.2991316826994651e-05;//tfinal[s];
+    bicho.SolveCVR(ins[0], ins[1], ins[2], ins[3], salida);
+  };
+}
+};
+
 extern "C"
 int wrapper_c_(double *ins, double *salida)
 {
@@ -152,6 +188,7 @@ ins[4]=0.0;
             if (PrintIt[k]!=0.0)
             {
               test.SolveCVR(ins[0], ins[1], ins[2], ins[3], salida);
+              Paralelizar(ins[0], ins[1], ins[2], ins[3], salida);
               break;
             };
         }

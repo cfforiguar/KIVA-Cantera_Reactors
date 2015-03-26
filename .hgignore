@@ -30,3 +30,11 @@ Notas sobre el desarrollo de los reactores~
 0_preprocesador/lk_Preprocesador.py
 0_preprocesador/Preprocesador.py~
 5_Test_PSR_KIVA/pin.log
+7_PassMtx_C-Fortran/cppFn.cpp~
+7_PassMtx_C-Fortran/GenMtx.f~
+7_PassMtx_C-Fortran/datos_cpp.csv~
+7_PassMtx_C-Fortran/datos_f90.csv~
+7_PassMtx_C-Fortran/datos_f90.csv
+7_PassMtx_C-Fortran/datos_cpp.csv
+7_PassMtx_C-Fortran/test
+7_PassMtx_C-Fortran/cppFn.o

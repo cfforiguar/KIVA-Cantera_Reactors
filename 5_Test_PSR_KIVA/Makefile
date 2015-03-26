@@ -1,11 +1,11 @@
 include /home/carlos/.local/include/cantera/Cantera.mak
 
 CC=icc
-CXX=icpc -g -traceback 
+CXX=icpc -g -traceback -fopenmp
 RM=rm -f
-CCFLAGS=-g
+CCFLAGS=-g 
 CPPFLAGS=$(CANTERA_INCLUDES)
-LDFLAGS=
+LDFLAGS= 
 LDLIBS=$(CANTERA_LIBS)
 
 SRCS=WSR_KIVA.cpp
