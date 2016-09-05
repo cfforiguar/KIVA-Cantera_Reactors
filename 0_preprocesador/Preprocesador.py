@@ -28,7 +28,7 @@ names=gas1.species_names
 #Pasa a minúsculas
 #gas1.species_names[1].lower()
 nsp=gas1.n_species
-cont=np.arange(12,nsp,dtype=np.int16)
+cont=np.arange(0,nsp,dtype=np.int16)
 #Para imprimir hay 2 alternativas:
 #https://docs.python.org/3.1/tutorial/inputoutput.html
 #Para formatear la salida/entrada véase

@@ -9,7 +9,7 @@ CXX=icpc
 RM=rm -f
 CCFLAGS=-g
 CPPFLAGS=$(CANTERA_INCLUDES)
-LDFLAGS=  
+LDFLAGS=  -fopenmp
 LDLIBS=$(CANTERA_LIBS)
 
 SRCScpp=cppwrapper.cpp

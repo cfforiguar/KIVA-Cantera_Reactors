@@ -7,7 +7,7 @@
       allocate (SpMtx(numcellsa,ct_nsp))!**
       DO i = 1, numcellsa
         DO j = 1, ct_nsp
-          SpMtx(i,j) = i+j
+          SpMtx(i,j) = i+j!Mirar bien las dimensiones de la MTX en KIVA 
         END DO
       END DO
       write(varFormat,*) '(',numcellsa*ct_nsp,'(es26.20", "))'
