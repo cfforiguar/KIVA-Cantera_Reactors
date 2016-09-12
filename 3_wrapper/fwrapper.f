@@ -1,5 +1,6 @@
-      program wrapper_f
+      integer function wrapper_f(n) result (dummy)
       IMPLICIT NONE
+      integer, intent(in) :: n
       integer :: i=1,j=1,numcellsa=2000,ct_nsp=29
       double precision, dimension(:,:), allocatable:: Y,TempY
       double precision, dimension(:), allocatable:: temperatura
@@ -8,6 +9,9 @@
       double precision :: tfinal
     ! Cómo escribir salidas con formato variable http://www.eng-tips.com/viewthread.cfm?qid=37205
       character*50 :: varFormat
+      
+      dummy=0
+      
       allocate (Y(numcellsa,ct_nsp))
       allocate (TempY(ct_nsp,numcellsa))
       allocate (temperatura(numcellsa))
@@ -46,4 +50,4 @@
 !3.	Usar diff para que avise si son iguales
 !	diff -s  datos_f90.csv datos_cpp.csv
 
-      end program
+      end function wrapper_f
