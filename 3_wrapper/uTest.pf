@@ -1,0 +1,6 @@
+@test
+subroutine uTest()
+   use pFUnit_mod
+   use uTestContainer
+   @assertEqual(0, wrapper_f(n))
+end subroutine uTest
