@@ -20,11 +20,25 @@ SRCScpp=cppwrapper.cpp
 SRCSf90=fwrapper.f
 
 
-all: test
+all: tests tests.x
 
 #Generar los F90 de los tests unitarios
+#tests: $(OBJS)
+
+testSuites.inc: $(SRCS)
+
+FFLAGS += -I$(SRC_DIR) $(PFUNIT)/mod
+
+EXE = tests$(EXE_EXT)
+ifneq ($(UNAME),Windows)
+	LIBS = -L$(PFUNIT)/lib -lpfunit 
+else
+	LIBS = $(PFUNIT)/lib/libpfunit$(LIB_EXT)
+endif
+
 %.F90: %.pf
-	$(PFUNIT)/bin/pFUnitParser.py $<  $@
+	$(PFUNIT)/bin/pFUnitParser.py $<  $@ -I.
+TESTS = $(wildcard *.pf)
 
 #Genera el ejecutable de Cantera
 #test: $(OBJS)
@@ -52,7 +66,7 @@ OBJS= $(SRCS:.F90=.o) $(TESTS:.pf=.o) $(subst .f90,.o,$(SRCSf90)) $(subst .cpp,.
 
 #Linkear el ejecutable del test unitario
 tests.x: $(DRIVER) $(OBJS) testSuites.inc
-	$(FC) -o $@  -I$(PFUNIT)/mod $(DRIVER) $(OBJS) -L$(PFUNIT)/lib -lpfunit -I.
+	$(FC) $(LDFLAGS) -o $@  -I$(PFUNIT)/mod $(DRIVER) $(OBJS)  -lc -lstdc++ $(LDLIBS) -L$(PFUNIT)/lib -lpfunit -I.
 
 tests: tests.x
 	./tests.x

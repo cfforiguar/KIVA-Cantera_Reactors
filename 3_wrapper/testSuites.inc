@@ -1,2 +1,2 @@
 ! Register your test suites here
-ADD_TEST_SUITE(testFactorialA_suite)
+ADD_TEST_SUITE(uTest_suite)
