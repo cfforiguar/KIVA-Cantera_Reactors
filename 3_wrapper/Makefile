@@ -17,7 +17,7 @@ LDFLAGS= # -fopenmp
 LDLIBS=$(CANTERA_LIBS)
 
 SRCScpp=cppwrapper.cpp
-SRCSf90=fwrapper.f
+#SRCSf90=fwrapper.f
 
 
 all: tests tests.x
@@ -61,7 +61,7 @@ DRIVER = $(PFUNIT)/include/driver.F90
 
 
 #Junta los objetos ya compilados
-OBJS= $(SRCS:.F90=.o) $(TESTS:.pf=.o) $(subst .f90,.o,$(SRCSf90)) $(subst .cpp,.o,$(SRCScpp))
+OBJS= $(SRCS:.F90=.o) $(TESTS:.pf=.o)  $(subst .cpp,.o,$(SRCScpp))
 
 
 #Linkear el ejecutable del test unitario
