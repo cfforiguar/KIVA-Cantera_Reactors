@@ -1,4 +1,6 @@
       integer function wrapper_f(n) result (dummy)
+      use, intrinsic :: iso_c_binding
+      use mpi
       IMPLICIT NONE
       integer, intent(in) :: n
       integer :: i=1,j=1,numcellsa=2000,ct_nsp=29
@@ -9,7 +11,12 @@
       double precision :: tfinal
     ! Cómo escribir salidas con formato variable http://www.eng-tips.com/viewthread.cfm?qid=37205
       character*50 :: varFormat
-      
+    !Variables usadas por MPI
+      integer ( kind = 4 ) ierr, id,p  
+      integer ( c_int ) comm
+      real ( kind = 8 ) wtime_diff
+      real ( kind = 8 ) wtime_end
+      real ( kind = 8 ) wtime_start
       dummy=0
       
       allocate (Y(numcellsa,ct_nsp))
@@ -32,8 +39,55 @@
       END DO    
       TempY=transpose(Y)
       write(varFormat,*) '(',numcellsa*ct_nsp,'(es26.20", "))'
+      !
+      !  Initialize MPI.
+      !
+        call MPI_Init ( ierr )
+      !
+      !  Get this process's ID.
+      !
+        comm = MPI_COMM_WORLD
+        call MPI_Comm_rank ( comm, id, ierr )
+      !
+      !  Find out how many processes are available.
+      !
+        call MPI_Comm_size ( comm, p, ierr )
+
+        if ( id == 0 ) then
+          write ( *, '(a,i8)' ) '  The number of processes is ', p
+          wtime_start = MPI_Wtime ( )
+        end if
+
+        write ( *, '(a)' ) ' '
+        write ( *, '(a,i8,a)' ) 'Process ', id, ' is active.'
+      !
+      !  Here we call the C function.
+      !
+
+!        call MPI_SCATTERV(sbuf, scounts, displs, stype, rbuf, rcount, rtype,
+!     &       root, comm, ierr)
+	            
       call wrapper_c(temperatura,CellVolume,CellPressure,tfinal
-     &                ,TempY, numcellsa,ct_nsp)
+     &                ,TempY, numcellsa,ct_nsp,comm,ierr)
+
+
+
+      if ( id == 0 ) then
+        wtime_end = MPI_Wtime ( )
+      end if
+
+
+      if ( id == 0 ) then
+        wtime_end = MPI_Wtime ( )
+      end if
+    !
+    !  Finish up.
+    !
+      call MPI_Finalize ( ierr )
+    !
+    !  Single process execution.
+    !
+
 !      print *, 'Fortran wrapper'
 !      print *,Y
       open(unit=10,file='datos_f90.csv',position='append',status='old')

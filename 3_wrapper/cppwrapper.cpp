@@ -4,6 +4,7 @@
 #include "cantera/zeroD/IdealGasReactor.h"
 #include <vector>
 #include <fstream>
+# include <mpi.h>
 
 using namespace Cantera;
 
@@ -99,9 +100,27 @@ void Paralelizar(double *temperatura,double *CellVolume,double *CellPressure,dou
 
 
 extern "C"
-int wrapper_c_(double *temperatura,double *CellVolume,double *CellPressure,double *tfinal, double *Y,int *numcellsa, int *ct_nsp)
+int wrapper_c_(double *temperatura,double *CellVolume,double *CellPressure,double *tfinal, double *Y,int *numcellsa, int *ct_nsp, int n, int *fComm )
 {
+// mpi vars
+  MPI_Comm comm;
+  int id;
+  int ierr;
+  int p;
   try {
+  /*
+    Convert Fortran MPI Communicator ID to C.
+  */
+    comm = MPI_Comm_f2c ( *fComm );
+  /*
+    Determine this processes's rank.
+  */
+    ierr = MPI_Comm_rank ( comm, &id );
+  /*
+    Determine the number of processes.
+  */
+    ierr = MPI_Comm_size ( comm, &p );
+
   //Cosas para borrar
 //    std::cout << "Interfaz C" << std::endl;
 //    std::cout << ct_nsp[0] << std::endl;
