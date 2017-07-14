@@ -1,7 +1,7 @@
 include /home/carlos/.local/include/cantera/Cantera.mak
 
 CC=icc
-CXX=icpc -g -traceback -fopenmp
+CXX=icpc -g -traceback #-fopenmp
 RM=rm -f
 CCFLAGS=-g 
 CPPFLAGS=$(CANTERA_INCLUDES)

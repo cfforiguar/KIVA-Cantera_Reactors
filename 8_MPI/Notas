@@ -1,0 +1,3 @@
+1. Se puede usar el makefile original, pero tiene un error en un espacio y en ubicar la ruta del *.mak . Por eso no funciona originalmente
+2. Esta carpeta la produce cantera al instalarse. La ruta original en la que estabam estos archivos es: "/home/carlos/.local/share/cantera/samples/f90"
+3. La compilación se hace normal luego de que se arregla el makefile. Puede que en la ubicación actual no funcione debito a los espacios en la ruta de archivo. Nótese que ifort estaba en en path tal cual como rezan las instrucciones al terminar la instalación del mismo.

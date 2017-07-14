@@ -68,7 +68,7 @@
 !     &       root, comm, ierr)
 	            
       call wrapper_c(temperatura,CellVolume,CellPressure,tfinal
-     &                ,TempY, numcellsa,ct_nsp,comm,ierr)
+     &                ,TempY, numcellsa,ct_nsp,comm)
 
 
 

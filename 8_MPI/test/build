@@ -1,0 +1,2 @@
+#!/bin/sh
+mpif90 test.f90 -o test -I/usr/local/include/cantera -lcantera_fortran -lcantera -lsundials_cvodes -lsundials_ida -lsundials_nvecserial -lctmath -lexecstream -lctlapack -lctblas -lctf2c -lstdc++

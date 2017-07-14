@@ -4,7 +4,7 @@
 #include "cantera/zeroD/IdealGasReactor.h"
 #include <vector>
 #include <fstream>
-# include <mpi.h>
+#include <mpi.h>
 
 using namespace Cantera;
 
@@ -100,7 +100,7 @@ void Paralelizar(double *temperatura,double *CellVolume,double *CellPressure,dou
 
 
 extern "C"
-int wrapper_c_(double *temperatura,double *CellVolume,double *CellPressure,double *tfinal, double *Y,int *numcellsa, int *ct_nsp, int n, int *fComm )
+int wrapper_c_(double *temperatura,double *CellVolume,double *CellPressure,double *tfinal, double *Y,int *numcellsa, int *ct_nsp, int *fComm )
 {
 // mpi vars
   MPI_Comm comm;

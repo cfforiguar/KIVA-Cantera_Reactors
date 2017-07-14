@@ -1,0 +1,12 @@
+env = Environment()
+
+env['F90'] = 'ifort'
+env.Append(FFLAGS='-g',
+           F90PATH=['/home/carlos/.local/include/cantera'],
+           LIBS=['cantera_fortran', 'cantera', 'sundials_cvodes', 'sundials_ida', 'sundials_nvecserial', 'mkl_rt', 'boost_system', 'stdc++'],
+           LIBPATH=['/home/carlos/.local/lib', '/usr/local/lib', '/opt/intel/composerxe/mkl/lib/intel64/', '/usr/local/lib'],
+           LINKFLAGS=['-g', '-pthread'],
+           FRAMEWORKS=[])
+
+program = env.Program('demo', 'demo.f90')
+Default(program)

@@ -1,3 +1,4 @@
+#include <mpi.h>
 #include <iostream>
 #include "cantera/zerodim.h"
 #include "cantera/IdealGasMix.h"
@@ -178,7 +179,12 @@ ins[4]=0.0;
 	gas1=ct.Solution("gri30.cti")
 	gas1.species_index('AR')
 	*/
- 
+  
+  int c;
+  char **v;
+  MPI_Init(&c, &v);
+  MPI_Finalize();
+
   joinCVR test;
 	double *PrintIt;
 	PrintIt = new double[nsp];

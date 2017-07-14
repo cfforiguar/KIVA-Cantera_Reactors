@@ -1,20 +1,20 @@
 include /home/carlos/.local/include/cantera/Cantera.mak
 
 #Parte de F90
-FC= ifort -g -O0
+FC= mpif90  -g -O0
 
 #Parte de c++
-CC=icc
-CXX=icpc
+CC=mpicc 
+CXX=mpicxx 
 RM=rm -f
 CCFLAGS=-g
 CPPFLAGS=$(CANTERA_INCLUDES)
-LDFLAGS=  -fopenmp
+LDFLAGS= # -fopenmp
 LDLIBS=$(CANTERA_LIBS)
 
 SRCScpp=cppwrapper.cpp
 SRCSf90=fwrapper.f
-OBJS=$(subst .f90,.o,$(SRCSf90)) $(subst .cpp,.o,$(SRCScpp))
+OBJS=$(subst .cpp,.o,$(SRCScpp)) $(subst .f90,.o,$(SRCSf90))
 
 all: test
 
