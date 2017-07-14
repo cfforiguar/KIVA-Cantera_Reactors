@@ -98,7 +98,7 @@ f1.closed
 
 #################################
 #Mañana:
-#-Script que convierta el mecanismo
+#**-Script que convierta el mecanismo
 #-Script que genere el xml
 #-Mod de preprocesador.py para que escriba directamente en el itape5
 #  -nsp
