@@ -96,41 +96,6 @@ for line in lines1:
   f1.write(line)
 f1.closed
 
-#################################
-#Mañana:
-#**-Script que convierta el mecanismo
-#-Script que genere el xml
-#-Mod de preprocesador.py para que escriba directamente en el itape5
-#  -nsp
-#  -nrk
-#  -trbchem
-#-Mod de preprocesador.py para que escriba el datahk completo
-#################################
-
-
-#Separar líneas de las especies en dat.thermo
-
-#Imprimir todo el dat.thermo, añadir las que no encuentre
-
-#. generar un mecanismo en cantera usando los archivos de mecanismo y thermo de chemkin y ponerle como nombre "Mech_KIVA_Cantera.cti"
-#. A la fase que se va a importar en dicho mecanismo ponerle como nombre 'gas'
-#ck2cti --permissive  --input=EBRIOchem.inp --thermo=EBRIOtherm.dat --id=gas --output=Mech_KIVA_Cantera.cti
-
-#. modificar el datahk de acuerdo con la salida mw/hft de Preprocesador.py
-  #Escribirlo de cero a partir del dat.thermo
-
-#. modificar el itape5 de acuerdo con la salida mfrac de Preprocesador.py
-#. modificar nsp en el itape5 para que concuerde con el número de especies
-#. modificar nrk en el itape5 para que concuerde con el número de reacciones
-#. modificar trbchem en el itape5 para que sea 2.0
-
-#. Verificar los 3 archivos necesarios para correr la prueba sean coherentes
-#  -datahk ---->OJO: cambia cuando se cambia de mecanismo
-#  -iprep/kiva4grid
-#  -itape5 ---->OJO: cambia cuando se cambia de mecanismo
-#    -Tener en cuenta que como se implementó el phiMax y phiMin que se debe modificar el itape5 de acuerdo con eso
-#      -La línea a modificar es:   nrk    #Reacc   phiMax   phiMin
-#  -Mech_KIVA_Cantera.cti ---->OJO: cambia cuando se cambia de mecanismo
 
 
 

@@ -143,22 +143,3 @@ h2o2=["h2o2              120186H   2O   2          G  0300.00   5000.00  1000.00
       " 0.04573167E+02 0.04336136E-01-0.01474689E-04 0.02348904E-08-0.01431654E-12    2",
       "-0.01800696E+06 0.05011370E+01 0.03388754E+02 0.06569226E-01-0.01485013E-05    3",
       "-0.04625806E-07 0.02471515E-10-0.01766315E+06 0.06785363E+02                   4"]
-
-
-
-Final=["c  Automatically generated datahk by Qt-KIVA Universidad Nacional de Colombia",
-       "c",
-       "c     hk arrays are the enthalpies of the species, taken from the",
-       "c     janaf thermochemical tables, which have the zero point at t=298k.",
-       "c     intervals are t=100(n-1), and units are kcal/mole (all enthalpy",
-       "c     data is converted to sie in ergs/gm in subroutine rinput).",
-       "c     species #1 is assumed to be the fuel, and its hk is loaded by",
-       "c     subroutine fuel.     species #2-13 below are as follows:",
-       "c     nspl+1=o2, nspl+2=n2, nspl+3=co2, nspl+4=h20, nspl+5=h, ",
-       "c     nspl+6=h2, nspl+7=o, nspl+8=n, nspl+9=oh,",
-       "c     nspl+10=co, nspl+11=no, nspl+12=ho2.  ",
-       "c     note:  for h2 combustion, select h2 as the",
-       "c     fuel (species #1), and do -->not<-- refer to species #7 in any",
-       "c     chemical reactions.  species 13 enthalpy data below will need to",
-       "c     be activated, and parameter lnsp must be increased to 13."]
-
