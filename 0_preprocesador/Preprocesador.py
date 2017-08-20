@@ -61,9 +61,6 @@ for i in range(0,lnSpeciesBlock-nspl):
 
 cont=np.arange(0,nsp,dtype=np.int16)
 #Ciclo para introducir las nuevas especies
-print("ebrio ebrio ebrio")
-print(lines[nspLine])
-print(lines[nspLine+1])
 for value in cont:
 #  lines.insert(nspLine+cont+1,speciesRegEx)
   lines.insert(nspLine+value+nspl+1, gas1.species_names[value].lower().rjust(8)+
@@ -109,10 +106,10 @@ for value in cont:
   lines.insert(mfracLine+value+nspl+1,('mfrac'+gas1.species_names[value].lower()+',').ljust(18)
 	             +'{0:12.6E}'.format(0)+"\n")
 
-f1=open('EBRIO.itape5','w')
+f1=open('itape5','w')
 for line in lines:
   f1.write(line)
-f1.closed
+f1.close()
 
 
 #A continuación se hace la parte de las entalpías para el archivo datahk
@@ -131,7 +128,7 @@ pCriti=np.zeros((nsp), dtype=np.float64)
 acentric=np.zeros((nsp), dtype=np.float64)
 impCont=np.arange(0,51,1,dtype=np.int16)
 Enth=np.ones((nsp,51), dtype=np.float64)
-f = open('datahkNew', 'w')
+f = open('datahk', 'w')
 for value in cont:
   for i in impCont:
     gas1.TP=T100[i],ct.one_atm

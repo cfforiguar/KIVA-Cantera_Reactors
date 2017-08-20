@@ -3,4 +3,4 @@ export LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib/boost:/usr/local/include/bo
 source /home/carlos/.local/bin/setup_cantera
 source /opt/intel/bin/compilervars.sh intel64
 
-ck2cti --permissive  --input=EBRIOchem.inp --thermo=EBRIOtherm.dat --id=gas --output=Mech_KIVA_Cantera.cti
+ck2cti --permissive  --input=MODchem.inp --thermo=MODtherm.dat --id=gas --output=Mech_KIVA_Cantera.cti

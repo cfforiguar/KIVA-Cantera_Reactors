@@ -44,10 +44,10 @@ print(lines[specsLine+1])
 #print(', '.join(lines))
 f.closed
 
-f=open('EBRIOchem.inp','w')
+f=open('MODchem.inp','w')
 for line in lines:
   f.write(line)
-f.closed
+f.close()
 
 # En el archivo thermo de chemkin, poner/añadir las 12 especies originales de KIVA con los coeficientes de algún mecanismo probado en KIVA
 
@@ -74,8 +74,8 @@ for i in range(0,len(lines1)):
     if (re.match(speciesMatch,speciesStr)):
       #print(lines1)
       isSpeciesLs[j]=True
-      print(lines1[i])
-      print("ebrioLOCO "+speciesStr)
+      #print(lines1[i])
+      #print("ebrioLOCO "+speciesStr)
 
 
 #Crear base de datos de las 12 especies, si falta alguna, simplemente meta de la base de datos
@@ -91,11 +91,7 @@ for i in range(0,len(isSpeciesLs)):
 
 f1.closed
 
-f1=open('EBRIOtherm.dat','w')
+f1=open('MODtherm.dat','w')
 for line in lines1:
   f1.write(line)
-f1.closed
-
-
-
-
+f1.close()
