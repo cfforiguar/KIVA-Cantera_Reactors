@@ -1,4 +1,6 @@
 #! /home/carlos/opt/anaconda3/bin/python3
+# encoding: utf-8
+import os
 import re
 #######################################
 #Modifica los mecanismos de Chemkin para que sigan el orden de las especies como se cargan en KIVA4
@@ -95,3 +97,5 @@ f1=open('MODtherm.dat','w')
 for line in lines1:
   f1.write(line)
 f1.close()
+os.system("ck2cti --permissive  --input=MODchem.inp --thermo=MODtherm.dat --id=gas --output=Mech_KIVA_Cantera.cti")
+

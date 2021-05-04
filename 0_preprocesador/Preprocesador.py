@@ -1,5 +1,5 @@
-#! /home/carlos/opt/anaconda3/bin/python3
-import re
+#! /usr/bin/env python3
+# encoding: utf-8
 
 #script para preprocesar manualmente las cosas de cantera a KIVA
 
@@ -9,6 +9,7 @@ import re
 #Este procedimiento está regado en las notas del cacharreo cantera
 import cantera as ct
 import numpy as np
+import re
 #ct.add_directory('/home/carlos/Maestria/Materias/Tesis/Mecanismos')
 gas1 = ct.Solution('Mech_KIVA_Cantera.cti')
 gas1.TP=298.15,ct.one_atm
@@ -38,17 +39,21 @@ isSpeciesBlock=False
 lnSpeciesBlock=0
 with open('itape5','r') as f:
     lines = f.readlines()
+
 for i in range(0,len(lines)):
   if re.match("stoifuel",lines[i]):#Detectar Fin del bloque de especies
-    break  
+    print("detectado: ",lines[i])
+    break
   if isSpeciesBlock:
 #    print(lines[i])
     lnSpeciesBlock=lnSpeciesBlock+1
   if re.match("nsp",lines[i]):#Detectar bloque de especies
+    print("detectado: ",lines[i])
     nspLine=i
     isSpeciesBlock=True
     #Detectar número de especies líquidas
     nsplRegex=re.search("nsp\s(\d+)\s(\d+)(\s|$)?",lines[i])
+    print("detectado: ",lines[i])
     if nsplRegex:
       nspl=int(nsplRegex.group(2))#extrae número de especies líquidas
       #Sustituye el número de especies por el número de especies del mecanismo
@@ -87,7 +92,7 @@ for i in range(0,len(lines)):
     break  
   if isBlock:
     lnBlock=lnBlock+1
-  if re.match("er.\s\d+\.\d+",lines[i]):#Detectar bloque de mfrac
+  if re.match("er\s\d+\.\d+",lines[i]):#Detectar bloque de mfrac
     print(lines[i])
     mfracLine=i
     isBlock=True
